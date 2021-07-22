@@ -16,6 +16,9 @@ const notifRoutes = require('./routes/notif');
 
 const app = express();
 
+//connection à la base de données
+require('./database/connection');
+
 // Configuration cors
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
