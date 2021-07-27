@@ -18,11 +18,7 @@ exports.signup = (req, res) => {
 
     const { value, error } = result; 
     const valid = error == null; 
-    if (!valid) { 
-      res.status(422).json({ 
-        message: 'Invalid request', 
-        data: body 
-      })
+    if (!valid) { res.status(422).json({ message: 'Invalid request', data: body })}
 
     bcrypt
         .hash(req.body.pasword, 10)
@@ -75,35 +71,13 @@ exports.userProfile = (req, res) => {
 }
 
 exports.deleteProfile = (req, res) => {
-        //récupération de l'id de l'user
-        let userId = jwtUtils.getUserId(req.headers.authorization);
-        if (userId != null) {
-            models.User.findOne({
-                where: { id: userId }
-            })
-                .then(user => {
-                    if (user != null) {
-                        //Supprimme les post de l'untilisateur
-                        models.Post
-                            .destroy({
-                                where: { userId: user.id }
-                            })
-                            .then(() => {
-                                //Suppression de l'utilisateur
-                                models.User
-                                    .destroy({
-                                        where: { id: user.id }
-                                    })
-                                    .then(() => res.status(204).json({ message: "Utilisateur supprimé"}))
-                                    .catch(err => console.log(err))
-                            })
-                            .catch(err => res.status(500).json(err))
-                    }
-                    else {
-                        res.status(401).json({ error: 'Cet user n\'existe pas' })
-                    }
-                })
-        } else {
-            res.status(500).json({ error: 'Impossible de supprimer ce compte, contacter un administrateur' })
-        }
-    }
+    models.User.findOne({ id: req.params.id })
+    .then(() => {
+        models.User.destroy({ where: { UserId: req.params.id }})
+        models.Post.destroy({ where: { UserId: req.params.id }})
+        User.destroy({ where: { id: req.params.id }}) 
+        .then( () => res.status(204).json({message: "Utilisateur supprimé"}))
+        .catch(error => res.status(400).json(error))
+    })
+    .catch(error => res.status(500).json({ error }));
+}
