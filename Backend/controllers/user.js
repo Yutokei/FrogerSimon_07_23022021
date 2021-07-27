@@ -1,8 +1,8 @@
-const Joi = require('joi')
-let bcrypt = require('bcrypt');
-let jwt = require('../utils/jwt.utils');
-let models = require('../models');
-const cryptoJs = require('crypto-js')
+const Joi =         require('joi')
+let bcrypt =        require('bcrypt');
+let jwtUtils =      require('../utils/jwt.utils');
+let models =        require('../models');
+const cryptoJs =    require('crypto-js')
 require('dotenv').config
 
 exports.signup = (req, res) => {
@@ -41,7 +41,25 @@ exports.signup = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    
+    models.User.findOne({ email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString() })
+    .then(user => {
+        if (!user)  {
+            return res.status(401).json({ error: 'Utilisateur non trouvé' });
+        }
+        bcrypt.compare(req.body.password, user.password)
+        .then(valid => {
+            if (!valid) {
+                return res.status(401).json({ error: 'Utilisateur non trouvé' });
+            }
+            res.status(200).json({
+                userId: user.id,
+                token: jwtUtils.generateToken(user.id),
+                isAdmin: user.isAdmin
+            })
+        })
+        .catch(error => res.status(500).json({ error }))
+    })
+    .catch(error => res.status(500).json({ error }))
 }
 
 exports.userProfile = (req, res) => {
@@ -49,9 +67,35 @@ exports.userProfile = (req, res) => {
 }
 
 exports.deleteProfile = (req, res) => {
-
-}
-
-exports.changePassword = (req, res) => {
-    
-};
+        //récupération de l'id de l'user
+        let userId = jwtUtils.getUserId(req.headers.authorization);
+        if (userId != null) {
+            models.User.findOne({
+                where: { id: userId }
+            })
+                .then(user => {
+                    if (user != null) {
+                        //Supprimme les post de l'untilisateur
+                        models.Post
+                            .destroy({
+                                where: { userId: user.id }
+                            })
+                            .then(() => {
+                                //Suppression de l'utilisateur
+                                models.User
+                                    .destroy({
+                                        where: { id: user.id }
+                                    })
+                                    .then(() => res.status(204).json({ message: "Utilisateur supprimé"}))
+                                    .catch(err => console.log(err))
+                            })
+                            .catch(err => res.status(500).json(err))
+                    }
+                    else {
+                        res.status(401).json({ error: 'Cet user n\'existe pas' })
+                    }
+                })
+        } else {
+            res.status(500).json({ error: 'Impossible de supprimer ce compte, contacter un administrateur' })
+        }
+    }
