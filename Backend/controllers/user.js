@@ -63,7 +63,15 @@ exports.login = (req, res) => {
 }
 
 exports.userProfile = (req, res) => {
-
+    exports.userProfil = (req, res) => {
+        let id = utils.getUserId(req.headers.authorization)
+        models.User.findOne({
+            attributes: ['id', 'email', 'username', 'profilePicture','isAdmin'],
+            where: { id: id }
+        })
+            .then(user => res.status(200).json(user))
+            .catch(error => res.status(500).json(error))
+    };
 }
 
 exports.deleteProfile = (req, res) => {
