@@ -30,7 +30,8 @@ exports.signup = (req, res) => {
             const user = models.User.create({
                 email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
                 username: req.body.username,
-                password: hash
+                password: hash,
+                isAdmin: false,
             });
             user
                 .then(() => { res.status(201).json({ message: "Vous êtes enregistré !" })})
