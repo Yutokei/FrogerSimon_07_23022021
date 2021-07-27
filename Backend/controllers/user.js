@@ -24,6 +24,19 @@ exports.signup = (req, res) => {
         data: body 
       })
 
+    bcrypt
+        .hash(req.body.pasword, 10)
+        .then(hash => {
+            const user = models.User.create({
+                email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
+                username: req.body.username,
+                password: hash
+            });
+            user
+                .then(() => { res.status(201).json({ message: "Vous êtes enregistré !" })})
+                .catch((error) => res.status(400).json({ error }));
+        })
+        .catch((error) => res.status(500).json({ error }));
 }
 
 exports.login = (req, res) => {
