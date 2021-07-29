@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
@@ -16,6 +15,9 @@ const notifRoutes = require('./routes/notif');
 
 const app = express();
 
+// Parse le body des requetes en json
+app.use(express.json());
+
 //connection à la base de données
 require('./database/connection');
 
@@ -27,8 +29,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
-// Parse le body des requetes en json
-app.use(bodyParser.json());
+
 // Sécurisation des headers
 app.use(helmet());
 // Log toutes les requêtes passées au serveur

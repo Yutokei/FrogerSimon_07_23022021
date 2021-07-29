@@ -58,17 +58,16 @@ exports.login = (req, res) => {
     .catch(error => res.status(500).json({ error }))
 }
 
-exports.userProfile = (req, res) => {
-    exports.userProfil = (req, res) => {
-        let id = utils.getUserId(req.headers.authorization)
+    exports.userProfile = (req, res) => {
+        const uuid = req.params.uuid
         models.User.findOne({
-            attributes: ['id', 'email', 'username', 'profilePicture','isAdmin'],
-            where: { id: id }
+            attributes: ['uuid', 'email', 'username', 'profilePicture', 'isAdmin'],
+            where: { uuid }
         })
             .then(user => res.status(200).json(user))
             .catch(error => res.status(500).json(error))
     };
-}
+
 
 exports.deleteProfile = (req, res) => {
     models.User.findOne({ id: req.params.id })

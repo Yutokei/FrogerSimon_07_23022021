@@ -1,4 +1,4 @@
-const Sauce = require('../models/Sauce');
+const Post = require('../models/post');
 const fs = require('fs');
 
 exports.createPost= (req, res) => {

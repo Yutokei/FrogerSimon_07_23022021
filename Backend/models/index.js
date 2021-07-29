@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 const fs = require('fs');
@@ -34,4 +35,11 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.User       = require('./User')(sequelize,Sequelize)
+db.Post       = require('./Post')(sequelize, Sequelize)
+db.Comment    = require('./Comment')(sequelize, Sequelize)
+
+
+
 module.exports = db;
+*/

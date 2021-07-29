@@ -1,17 +1,40 @@
-const Sequelize = require('sequelize');
-
-module.exports = sequelize.define('Post', {
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Post extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  };
+  Post.init({
     id: { 
-        type:           Sequelize.INTEGER(11),
-        allowNull:      false,
-        autoIncrement:  true,
-        primaryKey:     true,
+                  type:           DataTypes.INTEGER(11),
+                  allowNull:      false,
+                  autoIncrement:  true,
+                  primaryKey:     true,
 },
-    userId: {type:          Sequelize.INTEGER(11),
-             allowNull:     false
+    userId: {
+                  type:          DataTypes.INTEGER(11),
+                  allowNull:     false
     },
-    Textcontent: {type:     Sequelize.STRING(500),
+    Textcontent: {
+                  type:     DataTypes.STRING(500),
                   allowNull:false
     },
-    ImageContent: Sequelize.STRING(200)
-})
+    ImageContent:{
+                  type:     DataTypes.STRING(200)}
+    }, 
+  {
+    sequelize,
+    tableName: 'posts',
+    modelName: 'Post',
+  });
+  return Post;
+};
