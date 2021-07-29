@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable('users', {
 uuid:       {type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4

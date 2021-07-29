@@ -1,4 +1,3 @@
-/*
 'use strict';
 
 const fs = require('fs');
@@ -35,11 +34,18 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.User       = require('./User')(sequelize,Sequelize)
-db.Post       = require('./Post')(sequelize, Sequelize)
-db.Comment    = require('./Comment')(sequelize, Sequelize)
+db.users    = require("./user.js")(sequelize, Sequelize)
+db.posts = require("./post.js")(sequelize, Sequelize)
+db.comments = require("./comment.js")(sequelize, Sequelize)
 
+db.posts.belongsTo(db.users)
 
+db.comments.belongsTo(db.users)
+db.comments.belongsTo(db.posts)
+db.comments.hasOne(db.comments);
+
+db.users.hasMany(db.posts)
+db.users.hasMany(db.comments)
 
 module.exports = db;
-*/
+
