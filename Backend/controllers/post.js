@@ -15,7 +15,7 @@ exports.createPost= (req, res) => {
 
 }
 
-exports.getAllPost= (req, res) => {
+exports.getAllPosts = (req, res) => {
     Post.findAll({
         include: { model: User, required: true, attributes: ["userName"]}, 
         order: [["id", "DESC"]],
@@ -45,7 +45,7 @@ exports.uptdatePost= (req, res) => {
                 // si l'image est modifiée, on supprime l'image actuel
                 const filename = post.imageContent.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
-                    // une fois que l'ancienne image est supprimée dans le dossier /image, on peut mettre à jour le reste
+                    // une fois que l'ancienne image est supprimée dans le dossier /image, on peut mettre à jour le reste de l'objet
                     const postObject = {
                         ...JSON.parse(req.body.post),
                         imageContent: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
