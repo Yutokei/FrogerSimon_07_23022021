@@ -68,6 +68,9 @@ exports.login = (req, res) => {
                 userProfile.isAdmin = user.isAdmin
             })
             .catch(error => res.status(500).json(error))
+        models.post.findAll({ where: { uuid } })
+            .then((userPosts) => { res.status(200).json(userPosts)})
+            .catch((error) => { res.status(404).json({ error })})
     };
 
     exports.getAllProfile = (req, res) => {

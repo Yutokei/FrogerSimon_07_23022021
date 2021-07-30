@@ -24,11 +24,11 @@ module.exports = (sequelize, DataTypes) => {
                   type:          DataTypes.INTEGER(11),
                   allowNull:     false
     },
-    Textcontent: {
+    textcontent: {
                   type:     DataTypes.STRING(500),
                   allowNull:false
     },
-    ImageContent:{
+    imageContent:{
                   type:     DataTypes.STRING(200)}
     }, 
   {

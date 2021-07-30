@@ -6,7 +6,8 @@ const auth = require('../middleware/auth');
 //Routage
 router.post('/signup',      auth, userCtrl.signup);
 router.post('/login',       auth, userCtrl.login);
-router.get('/allProfile',   auth, userCtrl.getAllProfile)
+router.post('/login/admin', auth, userCtrl.login);
+router.get('/allProfile',   auth, userCtrl.getAllProfile);
 router.get('/profile',      auth, userCtrl.userProfile);
 router.delete('/profile',   auth, userCtrl.deleteProfile)
 
