@@ -38,7 +38,7 @@ exports.getAllPosts = (req, res) => {
     
 }
 
-exports.uptdatePost= (req, res) => {
+exports.updatePost= (req, res) => {
     if (req.file) {
         Post.findOne({ id: req.params.id })
             .then(post => {

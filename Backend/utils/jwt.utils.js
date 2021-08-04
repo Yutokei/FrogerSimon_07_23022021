@@ -9,7 +9,7 @@ module.exports = {
             {userId: userData},
             JWT_SIGN_SECRET,
             {
-                expiresIn: '2h'
+                expiresIn: '24h'
             })
     }
 }

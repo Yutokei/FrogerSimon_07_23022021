@@ -1,4 +1,4 @@
-const Joi =         require('joi')
+const Joi =         require('../utils/validinput')
 let bcrypt =        require('bcrypt');
 let jwtUtils =      require('../utils/jwt.utils');
 let models =        require('../models');
@@ -6,27 +6,14 @@ const cryptoJs =    require('crypto-js')
 require('dotenv').config
 
 exports.signup = (req, res) => {
-    const { body } = req;
 
-    const userJoiSchema = joi.object().keys({
-        username:   Joi.string().alphanum().min(3).max(30).required(),
-        email:      Joi.string().email.required(),
-        password:   Joi.string().alphanum().min(5).max(30).required()
-    })
-
-    const result = Joi.validate(body, userJoiSchema);
-
-    const { value, error } = result;
-    console.log(value);
-    const valid = error == null; 
-    if (!valid) { res.status(422).json({ message: 'Invalid request', data: body })}
-
+    Joi.verifySignupInputs(req.body.userName, req.body.email, req.body.password);
     bcrypt
         .hash(req.body.pasword, 10)
         .then(hash => {
             const user = models.User.create({
                 email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
-                username: req.body.username,
+                userName: req.body.userName,
                 password: hash,
             });
             user
@@ -37,7 +24,7 @@ exports.signup = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    models.User.findOne({ email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString() })
+    models.user.findOne({ email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString() })
     .then(user => {
         if (!user)  {
             return res.status(401).json({ error: 'Utilisateur non trouvé' });
@@ -49,8 +36,9 @@ exports.login = (req, res) => {
             }
             res.status(200).json({
                 userId: user.id,
+                userName: user.userName,
+                role: user.isAdmin,
                 token: jwtUtils.generateToken(user.id),
-                isAdmin: user.isAdmin
             })
         })
         .catch(error => res.status(500).json({ error }))
@@ -61,7 +49,7 @@ exports.login = (req, res) => {
     exports.userProfile = (req, res) => {
         const userProfile = {}
         const uuid = req.params.uuid
-        models.User.findOne({ where: { uuid }})
+        models.user.findOne({ where: { uuid }})
             .then(user => {
                 userProfile.userName = user.userName
                 userProfile.email = user.email
@@ -80,11 +68,11 @@ exports.login = (req, res) => {
     }
 
 exports.deleteProfile = (req, res) => {
-    models.User.findOne({ id: req.params.id })
+    models.user.findOne({ id: req.params.id })
     .then(() => {
-        models.User.destroy({ where: { UserId: req.params.id }})
-        models.Post.destroy({ where: { UserId: req.params.id }})
-        User.destroy({ where: { id: req.params.id }}) 
+        models.user.destroy({ where: { userId: req.params.id }})
+        models.Post.destroy({ where: { userId: req.params.id }})
+        user.destroy({ where: { id: req.params.id }}) 
         .then( () => res.status(204).json({message: "Utilisateur supprimé"}))
         .catch(error => res.status(400).json(error))
     })
@@ -95,8 +83,8 @@ exports.adminDeleteProfile = (req, res) => {
     if(req.query.isAdmin)
     {
         models.user.destroy({ where: { id: req.query.uid}})
-        models.post.destroy({ where: { UserId: req.query.uid }})
-        medels.comment.destroy({ where: { UserId: req.query.uid }})
+        models.post.destroy({ where: { userId: req.query.uid }})
+        medels.comment.destroy({ where: { userId: req.query.uid }})
         .then((res) => {res.status(200).json({ message: "L'utilisateur a été supprimé !" })})
         .catch(error => res.status(400).json({ error }))
     } else {

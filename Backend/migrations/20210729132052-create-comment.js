@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable('Comments', {
+    await queryInterface.createTable('comments', {
       id: { 
               type:           DataTypes.INTEGER(11),
               allowNull:      false,
@@ -19,11 +19,13 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        default: CURDATE()
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        default: CURDATE()
       }
     });
   },
