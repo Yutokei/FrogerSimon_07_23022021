@@ -40,10 +40,16 @@ exports.login = (req, res) => {
                 role: user.isAdmin,
                 token: jwtUtils.generateToken(user.id),
             })
+            res.cookie('jwt', token, {httpOnly: true, maxAge: '24h'})
         })
         .catch(error => res.status(500).json({ error }))
     })
     .catch(error => res.status(500).json({ error }))
+}
+
+exports.logout = (req, res) => {
+    res.cookie('jwt', '', {maxAge: 1 });
+    res.redirect('/')
 }
 
     exports.userProfile = (req, res) => {

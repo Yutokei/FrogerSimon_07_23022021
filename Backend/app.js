@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const fs = require('fs');
 const morgan = require('morgan');
@@ -11,12 +12,14 @@ const cryptojs = require('crypto-js');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
-
+const bodyParser = require('body-parser');
 
 const app = express();
 
 // Parse le body des requetes en json
 app.use(express.json());
+
+app.use(cookieParser())
 
 //connection à la base de données
 require('./database/connection');

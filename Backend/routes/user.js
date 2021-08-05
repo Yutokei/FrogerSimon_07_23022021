@@ -4,8 +4,10 @@ const userCtrl = require('../controllers/user');
 const auth = require('../middleware/auth');
 
 //Routage
-router.post('/signup',          auth, userCtrl.signup);
+router.post('/signup',                userCtrl.signup);
 router.post('/login',           auth, userCtrl.login);
+router.get('/logout',           auth, userCtrl.logout)
+
 router.get('/allProfiles',      auth, userCtrl.getAllProfiles);
 router.get('/profile',          auth, userCtrl.userProfile);
 router.delete('/profile',       auth, userCtrl.deleteProfile);
