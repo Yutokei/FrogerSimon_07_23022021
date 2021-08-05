@@ -1,5 +1,5 @@
 import React from 'react';
-import Log from '../components/Log'
+import Log from '../components/Log/index'
 import '../images/Groupomania_logos/icon-above-font.png'
 
 const Login = () => {
