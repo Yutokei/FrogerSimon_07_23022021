@@ -17,7 +17,7 @@ const App = () => {
     .catch((err) => console.log("No Token"))
     }
     fetchToken()
-  })
+  }, [uid])
 
   return (    
     <UidContext.Provider value={uid}>
