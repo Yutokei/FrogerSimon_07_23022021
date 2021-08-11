@@ -29,12 +29,12 @@ isAdmin:   {type:        DataTypes.BOOLEAN,
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        default: CURDATE()
+        defaultValue: DataTypes.NOW
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        default:  CURDATE()
+        defaultValue: DataTypes.NOW
       }
     });
   },

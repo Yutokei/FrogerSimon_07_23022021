@@ -11,7 +11,7 @@ exports.signup = (req, res) => {
     bcrypt
         .hash(req.body.pasword, 10)
         .then(hash => {
-            const user = models.User.create({
+            const user = models.users.create({
                 email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
                 userName: req.body.userName,
                 password: hash,
@@ -24,7 +24,7 @@ exports.signup = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    models.user.findOne({ email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString() })
+    models.users.findOne({where: {email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString()} })
     .then(user => {
         if (!user)  {
             return res.status(401).json({ error: 'Utilisateur non trouvé' });

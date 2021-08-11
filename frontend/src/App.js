@@ -1,11 +1,28 @@
-import React from "react";
-import Routes from './components/Routes'
+import React, { useEffect,useState } from "react";
+import { UidContext } from "./components/AppContext";
+import Routes from './components/Routes';
+import axios from "axios";
 
 const App = () => {
+  const [uid,setUid] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async() => {
+    await axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}jwtid`,
+      withCredentials: true
+    })
+    .then((res) => setUid(res.data))
+    .catch((err) => console.log("No Token"))
+    }
+    fetchToken()
+  })
+
   return (    
-    <div>
+    <UidContext.Provider value={uid}>
       <Routes />
-    </div>
+    </UidContext.Provider>
     );
 };
 
