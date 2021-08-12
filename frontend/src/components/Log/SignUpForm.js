@@ -1,11 +1,112 @@
-import React from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
-const signInForm = () => {
-    return (
-        <div>
-            inscription
-        </div>
-    )
-}
+const SignInForm = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [controlPassword, setControlPassword] = useState("");
 
-export default signInForm;
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const terms = document.getElementById("terms");
+    const pseudoError = document.querySelector(".pseudo.error");
+    const emailError = document.querySelector(".email.error");
+    const passwordError = document.querySelector(".password.error");
+    const passwordConfirmError = document.querySelector(
+      ".password-confirm.error"
+    );
+    const termsError = document.querySelector(".terms.error");
+
+    passwordConfirmError.innerHTML = "";
+    termsError.innerHTML = "";
+
+    if (password !== controlPassword || !terms.checked) {
+      if (password !== controlPassword)
+        passwordConfirmError.innerHTML = "Les mots de passe sont différents";
+
+      if (!terms)
+        termsError.innerHTML = "Veuillez accepter les conditions générales";
+    } else {
+      await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}api/user/signup`,
+        data: {
+          userName,
+          email,
+          password,
+        },
+      })
+        .then((res) => {
+        console.log(res)
+          if (res.data.errors) {
+            pseudoError.innerHTML = res.data.errors.userName;
+            emailError.innerHTML = res.data.errors.email;
+            passwordError.innerHTML = res.data.errors.password;
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  return (
+    <form action="" onSubmit={handleRegister} id="sign-up-form">
+      <label htmlFor="pseudo">Nom d'utilisateur</label>
+      <br />
+      <input
+        type="text"
+        name="userName"
+        id="pseudo"
+        onChange={(e) => setUserName(e.target.value)}
+        value={userName}
+      />
+      <div className="pseudo error"></div>
+      <br />
+      <label htmlFor="email">Email</label>
+      <br />
+      <input
+        type="email"
+        name="email"
+        id="email"
+        onChange={(e) => setEmail(e.target.value)}
+        value={email}
+      />
+      <div className="email error"></div>
+      <br />
+      <label htmlFor="password">Mot de passe</label>
+      <br />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+      />
+      <div className="password error"></div>
+      <br />
+      <label htmlFor="password-conf">Confirmer Mot de passe</label>
+      <br />
+      <input
+        type="password"
+        name="password"
+        id="password-conf"
+        onChange={(e) => setControlPassword(e.target.value)}
+        value={controlPassword}
+      />
+      <div className="password-confirm error"></div>
+      <br />
+      <input type="checkbox" id="terms" />
+      <label htmlFor="terms">
+        J'accepte les{" "}
+        <a href="/" target="_blank" rel="noopener noreferrer">
+          conditions générales
+        </a>
+      </label>
+      <div className="terms error"></div>
+      <br />
+      <input type="submit" value="Valider inscription" />
+    </form>
+  );
+};
+
+export default SignInForm;

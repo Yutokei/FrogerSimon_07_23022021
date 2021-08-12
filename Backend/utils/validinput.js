@@ -1,15 +1,13 @@
 const Joi = require('joi')
 
-const userJoiSchema = Joi.object().keys({
+const userJoiSchema = data =>{
+    const schema = Joi.object({
     userName:   Joi.string().alphanum().min(3).max(30).required(),
     email:      Joi.string().email().required(),
     password:   Joi.string().alphanum().min(5).max(30).required()
-})
+}).unknown();
 
-async function verifySignupInputs(userName, email, password){
-try{
-    const value = await userJoiSchema.validateAsync({ userName: userName, email: email, password: password })
+return schema.validate(data);
 }
-catch(err){
-    res.status(400).json({ error  });
-}};
+
+module.exports.userJoiSchema = userJoiSchema

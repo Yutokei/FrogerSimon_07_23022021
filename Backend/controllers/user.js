@@ -1,26 +1,33 @@
-const Joi =         require('../utils/validinput')
-let bcrypt =        require('bcrypt');
-let jwtUtils =      require('../utils/jwt.utils');
-let models =        require('../models');
-const cryptoJs =    require('crypto-js')
+const { userJoiSchema }=require('../utils/validinput')
+const bcrypt =          require('bcrypt');
+const jwtUtils =        require('../utils/jwt.utils');
+const models =          require('../models');
+const cryptoJs =        require('crypto-js')
 require('dotenv').config
 
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
 
-    Joi.verifySignupInputs(req.body.userName, req.body.email, req.body.password);
+    const { error } = userJoiSchema(req.body)
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    } else{
+    console.log("Utilisateur validé")
+    
     bcrypt
-        .hash(req.body.pasword, 10)
+        .hash(req.body.password, 10)
         .then(hash => {
-            const user = models.users.create({
-                email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
+            console.log(req.body);
+            const user = new models.users({
                 userName: req.body.userName,
-                password: hash,
+                email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
+                password: hash
             });
-            user
+            user.save()
                 .then(() => { res.status(201).json({ message: "Vous êtes enregistré !" })})
                 .catch((error) => res.status(400).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
+    };
 }
 
 exports.login = (req, res) => {
