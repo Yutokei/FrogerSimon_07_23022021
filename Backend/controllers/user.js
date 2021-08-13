@@ -41,13 +41,11 @@ exports.login = (req, res) => {
             if (!valid) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé' });
             }
-            res.status(200).json({
-                userId: user.id,
-                userName: user.userName,
-                role: user.isAdmin,
-                token: jwtUtils.generateToken(user.id),
-            })
+
+            const token = jwtUtils.generateToken(user.id);
             res.cookie('jwt', token, {httpOnly: true, maxAge: '24h'})
+
+            res.status(200).json({userId: user.id})
         })
         .catch(error => res.status(500).json({ error }))
     })

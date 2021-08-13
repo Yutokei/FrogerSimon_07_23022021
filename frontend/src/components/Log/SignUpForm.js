@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const SignInForm = () => {
+const SignUpForm = () => {
+  const [formSubmit, setFormSubmit] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,11 +39,13 @@ const SignInForm = () => {
         },
       })
         .then((res) => {
-        console.log(res)
+          console.log(res);
           if (res.data.errors) {
             pseudoError.innerHTML = res.data.errors.userName;
             emailError.innerHTML = res.data.errors.email;
             passwordError.innerHTML = res.data.errors.password;
+          } else {
+            setFormSubmit(true);
           }
         })
         .catch((err) => console.log(err));
@@ -50,63 +53,75 @@ const SignInForm = () => {
   };
 
   return (
-    <form action="" onSubmit={handleRegister} id="sign-up-form">
-      <label htmlFor="pseudo">Nom d'utilisateur</label>
-      <br />
-      <input
-        type="text"
-        name="userName"
-        id="pseudo"
-        onChange={(e) => setUserName(e.target.value)}
-        value={userName}
-      />
-      <div className="pseudo error"></div>
-      <br />
-      <label htmlFor="email">Email</label>
-      <br />
-      <input
-        type="email"
-        name="email"
-        id="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <div className="email error"></div>
-      <br />
-      <label htmlFor="password">Mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <div className="password error"></div>
-      <br />
-      <label htmlFor="password-conf">Confirmer Mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password-conf"
-        onChange={(e) => setControlPassword(e.target.value)}
-        value={controlPassword}
-      />
-      <div className="password-confirm error"></div>
-      <br />
-      <input type="checkbox" id="terms" />
-      <label htmlFor="terms">
-        J'accepte les{" "}
-        <a href="/" target="_blank" rel="noopener noreferrer">
-          conditions générales
-        </a>
-      </label>
-      <div className="terms error"></div>
-      <br />
-      <input type="submit" value="Valider inscription" />
-    </form>
+    <>
+      {formSubmit ? (
+        <>
+          <SignInForm />
+          <span></span>
+          <h4 className="success">
+            Vous êtes enregistré-e, veuillez-vous connecter
+          </h4>
+        </>
+      ) : (
+        <form action="" onSubmit={handleRegister} id="sign-up-form">
+          <label htmlFor="userName">Nom d'utilisateur</label>
+          <br />
+          <input
+            type="text"
+            name="userName"
+            id="pseudo"
+            onChange={(e) => setUserName(e.target.value)}
+            value={userName}
+          />
+          <div className="pseudo error"></div>
+          <br />
+          <label htmlFor="email">Email</label>
+          <br />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <div className="email error"></div>
+          <br />
+          <label htmlFor="password">Mot de passe</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <div className="password error"></div>
+          <br />
+          <label htmlFor="password-conf">Confirmer Mot de passe</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            id="password-conf"
+            onChange={(e) => setControlPassword(e.target.value)}
+            value={controlPassword}
+          />
+          <div className="password-confirm error"></div>
+          <br />
+          <input type="checkbox" id="terms" />
+          <label htmlFor="terms">
+            J'accepte les{" "}
+            <a href="/" target="_blank" rel="noopener noreferrer">
+              conditions générales
+            </a>
+          </label>
+          <div className="terms error"></div>
+          <br />
+          <input type="submit" value="Valider inscription" />
+        </form>
+      )}
+    </>
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

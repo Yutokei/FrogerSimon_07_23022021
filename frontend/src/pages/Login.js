@@ -13,7 +13,7 @@ const Login = () => {
             <div className="log-container">
                 <Log />
                 <div className="image-container">
-                    <img src='.\images\Groupomania_logos\icon-above-font.svg' alt="img-log" />
+                    <img src="../images/Groupomania_logos/icon-above-font.png" alt="img-log" />
                 </div>
             </div>
             )}
