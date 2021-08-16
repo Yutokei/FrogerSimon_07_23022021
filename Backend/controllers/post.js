@@ -4,9 +4,11 @@ const Comment = require('../models/comment')
 const fs = require('fs');
 
 exports.createPost= (req, res) => {
-    const postObject = JSON.parse(req.body.sauce);
+    const userName = req.userId.userName
+    const postObject = JSON.parse(req.body.post);
     const post = new Post({
         ...postObject,
+        userName: userName,
         imageContent: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
     post.save()

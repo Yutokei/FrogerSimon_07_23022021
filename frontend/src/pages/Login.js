@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Log from '../components/Log/index'
-import { AuthApi } from '../components/AuthApi';
-import largeLogoImg from '../images/Groupomania_logos/icon-above-font.png'
+import largeLogoImg from '../assets/Groupomania_logos/icon-above-font.png'
 
 const Login = () => {
-    //const auth = useContext(AuthApi);
 
     return (
         <div className="profil-page">           

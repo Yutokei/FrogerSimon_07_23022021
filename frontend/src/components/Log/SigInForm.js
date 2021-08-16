@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import axios from 'axios';
-import { AuthApi } from '../AuthApi';
 
 const SignInForm = () => {
-
-    const Auth = useContext(AuthApi)
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,16 +22,15 @@ const SignInForm = () => {
         })
         .then((res) => {
             if (res.data.errors) {
+                alert(res.data.error)
                 console.log(email)
                 emailError.innerHTML = res.data.errors.email;
                 passwordError.innerHTML = res.data.errors.password;
             }
             else {
-                Auth.setAuth(true);
-
-                localStorage.setItem("user", JSON.stringify(res.data));
+                localStorage.setItem("token", res.data.token);
                 
-                window.location = '/home';
+                useHistory.push('/home');
             }
         })
         .catch((err) => {

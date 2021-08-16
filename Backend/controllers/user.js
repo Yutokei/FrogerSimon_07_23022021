@@ -38,16 +38,7 @@ exports.signUp = (req, res, next) => {
 
 exports.signIn = (req, res) => {
     
-    console.log( "body " +req.body.email)
     const userEmail = req.body.email;
-    console.log( "constemail " +userEmail);
-    /*
-    const encrytptedEmail = cryptoJs.AES.decrypt(userEmail, process.env.CRYPTO_KEY);
-    console.log("cryptokey " + process.env.CRYPTO_KEY)
-    console.log("Email " + encrytptedEmail)
-    const decryptedEmail = encrytptedEmail.toString(cryptoJs.enc.Utf8);
-    console.log("DecryptEmail " + decryptedEmail)
-    */
 
     models.users.findOne({where: { email: userEmail }})
     .then(user => {
@@ -62,8 +53,8 @@ exports.signIn = (req, res) => {
 
             const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-            const createToken = (id) => {
-                return jwt.sign({id}, process.env.TOKEN_KEY, {
+            const createToken = (uuid, userName) => {
+                return jwt.sign({uuid: uuid, userName: userName}, process.env.TOKEN_KEY, {
                   expiresIn: maxAge
                 })
               };

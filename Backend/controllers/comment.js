@@ -5,7 +5,7 @@ const User = models.user;
 exports.createComment = (req, res) => {
     const comment = new Comment(
         {
-            UserId:     req.body.UserId,
+            userId:     req.body.userId,
             postId:     req.body.postId,
             Textcontent:req.body.Textcontent
         }

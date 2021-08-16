@@ -4,21 +4,20 @@ const User = require('../models/User');
 require('dotenv').config();
 
 module.exports = (req, res, next) => {
-const token = req.cookies.jwt;
+const token = req.headers["token"];
 if (token) {
   jwt.verify(token, process.env.TOKEN_KEY, async (err, decodedToken)=> {
     if (err) {
-      res.local.user = null;
-      res.cookies("jwt", "", {maxAge: 1});
+      res.json({auth: false, message: "échec de l'authentification"});
       next();
     } else {
-      let user = await User.findById(decodedToken);
-      res.locals.user = user;
+        req.user = decodedToken.userName
+        res.json({ message: "Vous êtes authentifié-e"})
       next();
     }
   })
 } else {
-  res.locals.user = null;
+  res.send("Vous n'êtes pas connecté")
   next();
 }
 };

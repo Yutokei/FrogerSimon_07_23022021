@@ -7,8 +7,6 @@ const fs = require('fs');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-const Cookies = require('cookies');
-const cookieParser = require('cookie-parser');
 const cryptojs = require('crypto-js');
 
 const userRoutes = require('./routes/user');
@@ -25,15 +23,13 @@ app.use(
   })
 );   
 
-app.use(cookieParser())
-
 //connection à la base de données
 require('./database/connection');
 
 // Configuration cors
 const corsOptions = {
   origin: process.env.CLIENT_PORT,
-  Credentials: false,
+  Credentials: true,
   'allowedHeaders': ['sessionId', 'Content-Type'],
   'exposedHeaders': ['sessionId'],
   'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
@@ -41,15 +37,6 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-/*
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_PORT);
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
-*/
 
 // Sécurisation des headers
 app.use(helmet());

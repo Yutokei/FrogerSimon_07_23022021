@@ -5,7 +5,7 @@ const Logout = () => {
 
     const logout = () => {
 
-        localStorage.removeItem("user")
+        localStorage.removeItem("token")
 
         window.location = "/"
     }

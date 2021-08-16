@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthApi } from '../AuthApi';
 import Logout from './Logout';
 import logoImg from '../../assets/Groupomania_logos/icon.png'
-import logoutImg from '../../assets/log-out.png'
+import auth from '../../auth/auth';
 
 const Navbar = () => {
-    const auth = useContext(AuthApi);
-    const storedData = JSON.parse(localStorage.getItem("user"))
-    const welcomeMessage = storedData.message
+
+    const storedData = ()=>{if(localStorage.getItem("token")){
+                          return  JSON.parse(localStorage.getItem("token").message)
+                        }else {
+                            return "Bienvenue"
+                        }}
+    const welcomeMessage = storedData;
 
     
     return (
@@ -22,26 +25,22 @@ const Navbar = () => {
                         </div>
                     </NavLink>
                 </div>
-                {auth ? (
                     <ul>
+                        {auth.isAuthenticate ? (
+                            <>
                         <li></li>
                         <li className="welcome">
                             <NavLink exact to="/profil">
-                                <h5>{welcomeMessage}</h5>
+                                <h5>{/*welcomeMessage*/} WELCOME</h5>
                             </NavLink>
                         </li>
                         <Logout />
+                        </>
+                        ) : (
+                            <li></li>
+                        )
+                        }
                     </ul>
-                ) : (
-                    <ul>
-                        <li></li>
-                        <li>
-                            <NavLink exact to="/">
-                                <img src={logoutImg} alt="logout" />
-                            </NavLink>
-                        </li>
-                    </ul>
-                )}
             </div>
         </nav>
     );
