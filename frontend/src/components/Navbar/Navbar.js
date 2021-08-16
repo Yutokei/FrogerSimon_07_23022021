@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthApi } from './AuthApi';
-import Logout from './Log/Logout';
-import logoImg from '../images/Groupomania_logos/icon.png'
-import logoutImg from '../images/log-out.png'
+import { AuthApi } from '../AuthApi';
+import Logout from './Logout';
+import logoImg from '../../assets/Groupomania_logos/icon.png'
+import logoutImg from '../../assets/log-out.png'
 
 const Navbar = () => {
-    const auth = useContext(AuthApi)
+    const auth = useContext(AuthApi);
+    const storedData = JSON.parse(localStorage.getItem("user"))
+    const welcomeMessage = storedData.message
 
     
     return (
@@ -25,7 +27,7 @@ const Navbar = () => {
                         <li></li>
                         <li className="welcome">
                             <NavLink exact to="/profil">
-                                <h5>Bienvenue userName</h5>
+                                <h5>{welcomeMessage}</h5>
                             </NavLink>
                         </li>
                         <Logout />

@@ -70,7 +70,7 @@ exports.signIn = (req, res) => {
 
             const token = createToken(user.id);
             res.status(202).json({
-                message:    "Connexion réussie",
+                message:    "Bienvenue " + user.userName,
                 userUuid:     user.uuid,
                 role:       user.isAdmin,
                 userName :  user.userName,

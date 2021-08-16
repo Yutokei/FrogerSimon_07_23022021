@@ -1,5 +1,5 @@
 import React from 'react';
-import logoutImg from '../../images/log-out.png'
+import logoutImg from '../../assets/log-out.png'
 
 const Logout = () => {
 

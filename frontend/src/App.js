@@ -1,21 +1,20 @@
 import React, { useEffect,useState } from "react";
 import { AuthApi } from "./components/AuthApi";
 import Routes from './components/Routes';
-import Cookies from "js-cookie";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const App = () => {
   const [auth, setAuth] = useState(false);
 
-  const readCookie = () => {
-  const user = Cookies.get('jwt');
+  const readStorage = () => {
+  const user = localStorage.getItem("user");
   if(user){
     setAuth(true);
   }
   }
   useEffect(() => {
-    readCookie();
+    readStorage();
 
   }, [])
 

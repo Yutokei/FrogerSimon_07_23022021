@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import Home from '../../pages/Home'
 import Profil from '../../pages/Profil'
 import Login from '../../pages/Login'
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { AuthApi } from '../AuthApi';
 import ProtectedLogin from '../ProtectedLogin/ProtectedLogin';
