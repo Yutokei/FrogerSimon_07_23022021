@@ -1,22 +1,19 @@
 import React, { useContext } from 'react';
 import Log from '../components/Log/index'
-import { UidContext } from '../components/AppContext';
+import { AuthApi } from '../components/AuthApi';
+import largeLogoImg from '../images/Groupomania_logos/icon-above-font.png'
 
 const Login = () => {
-    const uid = useContext(UidContext);
+    //const auth = useContext(AuthApi);
 
     return (
-        <div className="profil-page">
-            {uid ? (
-                <h1>PAGE update</h1>
-            ) : (
+        <div className="profil-page">           
             <div className="log-container">
                 <Log />
                 <div className="image-container">
-                    <img src="../images/Groupomania_logos/icon-above-font.png" alt="img-log" />
+                    <img src={largeLogoImg} alt="img-log" />
                 </div>
             </div>
-            )}
         </div>
     )
 }

@@ -26,3 +26,15 @@ exports.deleteComment = (req, res, next) => {
             .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
             .catch(error => res.status(400).json({ error }));
   };
+
+  exports.adminDeleteProfile = (req, res) => {
+    if(req.query.isAdmin)
+    {
+        
+        models.comment.destroy({ where: { userId: req.query.uid }})
+        .then((res) => {res.status(200).json({ message: "L'utilisateur a été supprimé !" })})
+        .catch(error => res.status(400).json({ error }))
+    } else {
+        res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
+    }
+} 

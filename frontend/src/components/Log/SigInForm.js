@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { AuthApi } from '../AuthApi';
 
 const SignInForm = () => {
+
+    const Auth = useContext(AuthApi)
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -25,6 +29,10 @@ const SignInForm = () => {
                 passwordError.innerHTML = res.data.errors.password;
             }
             else {
+                Auth.setAuth(true);
+
+                localStorage.setItem("user", JSON.stringify(res.data));
+                
                 window.location = '/home';
             }
         })

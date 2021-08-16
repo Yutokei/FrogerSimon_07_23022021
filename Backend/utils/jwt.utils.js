@@ -4,12 +4,12 @@ require('dotenv').config
 const JWT_SIGN_SECRET = process.env.TOKEN_KEY
 
 module.exports = {
-     generateToken : (userData) => {
+     generateToken : (id) => {
         return jwt.sign(
-            {userId: userData},
+            {id},
             JWT_SIGN_SECRET,
             {
-                expiresIn: '24h'
+                expiresIn: 1 * 24 * 60 * 60 * 1000
             })
     }
 }

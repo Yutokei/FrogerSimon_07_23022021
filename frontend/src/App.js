@@ -1,28 +1,29 @@
 import React, { useEffect,useState } from "react";
-import { UidContext } from "./components/AppContext";
+import { AuthApi } from "./components/AuthApi";
 import Routes from './components/Routes';
+import Cookies from "js-cookie";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const App = () => {
-  const [uid,setUid] = useState(null);
+  const [auth, setAuth] = useState(false);
 
+  const readCookie = () => {
+  const user = Cookies.get('jwt');
+  if(user){
+    setAuth(true);
+  }
+  }
   useEffect(() => {
-    const fetchToken = async() => {
-    await axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_API_URL}jwtid`,
-      withCredentials: true
-    })
-    .then((res) => setUid(res.data))
-    .catch((err) => console.log("No Token"))
-    }
-    fetchToken()
-  }, [uid])
+    readCookie();
+
+  }, [])
+
 
   return (    
-    <UidContext.Provider value={uid}>
+    <AuthApi.Provider value={{auth, setAuth}}>
       <Routes />
-    </UidContext.Provider>
+    </AuthApi.Provider>
     );
 };
 

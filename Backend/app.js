@@ -1,26 +1,29 @@
 const express = require('express');
 const cors = require('cors')
 require('dotenv').config();
-const cookieParser = require('cookie-parser');
+
 const path = require('path');
 const fs = require('fs');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
 const Cookies = require('cookies');
+const cookieParser = require('cookie-parser');
 const cryptojs = require('crypto-js');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
-const bodyParser = require('body-parser');
 
 const app = express();
 
-// Parse le body des requetes en json
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
+// Parse le body des requêtes en json
 app.use(express.json());
+app.use(                
+  express.urlencoded({
+    extended: true,
+  })
+);   
 
 app.use(cookieParser())
 
@@ -30,10 +33,10 @@ require('./database/connection');
 // Configuration cors
 const corsOptions = {
   origin: process.env.CLIENT_PORT,
-  Credentials: true,
+  Credentials: false,
   'allowedHeaders': ['sessionId', 'Content-Type'],
   'exposedHeaders': ['sessionId'],
-  'methods': 'GET,HEAD,PUT,PATCH,DELETE',
+  'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
   'preflightContinue': false
 }
 

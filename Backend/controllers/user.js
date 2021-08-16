@@ -1,11 +1,12 @@
 const { userJoiSchema }=require('../utils/validinput')
 const bcrypt =          require('bcrypt');
 const jwtUtils =        require('../utils/jwt.utils');
+const jwt   =           require('jsonwebtoken')
 const models =          require('../models');
 const cryptoJs =        require('crypto-js')
 require('dotenv').config
 
-exports.signup = (req, res, next) => {
+exports.signUp = (req, res, next) => {
 
     const { error } = userJoiSchema(req.body)
     if (error) {
@@ -17,9 +18,14 @@ exports.signup = (req, res, next) => {
         .hash(req.body.password, 10)
         .then(hash => {
             console.log(req.body);
+
+            const encrytptedEmail = cryptoJs.AES.encrypt(req.body.email, process.env.CRYPTO_KEY).toString();
+
+            console.log(encrytptedEmail);
+
             const user = new models.users({
                 userName: req.body.userName,
-                email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString(),
+                email: req.body.email,
                 password: hash
             });
             user.save()
@@ -30,8 +36,20 @@ exports.signup = (req, res, next) => {
     };
 }
 
-exports.login = (req, res) => {
-    models.users.findOne({where: {email: cryptoJs.HmacSHA256(req.body.email, process.env.CRYPTO_KEY).toString()} })
+exports.signIn = (req, res) => {
+    
+    console.log( "body " +req.body.email)
+    const userEmail = req.body.email;
+    console.log( "constemail " +userEmail);
+    /*
+    const encrytptedEmail = cryptoJs.AES.decrypt(userEmail, process.env.CRYPTO_KEY);
+    console.log("cryptokey " + process.env.CRYPTO_KEY)
+    console.log("Email " + encrytptedEmail)
+    const decryptedEmail = encrytptedEmail.toString(cryptoJs.enc.Utf8);
+    console.log("DecryptEmail " + decryptedEmail)
+    */
+
+    models.users.findOne({where: { email: userEmail }})
     .then(user => {
         if (!user)  {
             return res.status(401).json({ error: 'Utilisateur non trouvé' });
@@ -39,22 +57,35 @@ exports.login = (req, res) => {
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
             if (!valid) {
-                return res.status(401).json({ error: 'Utilisateur non trouvé' });
+                return res.status(401).json({ error: 'Mot de passe invalide' });
             }
 
-            const token = jwtUtils.generateToken(user.id);
-            res.cookie('jwt', token, {httpOnly: true, maxAge: '24h'})
+            const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-            res.status(200).json({userId: user.id})
+            const createToken = (id) => {
+                return jwt.sign({id}, process.env.TOKEN_KEY, {
+                  expiresIn: maxAge
+                })
+              };
+
+            const token = createToken(user.id);
+            res.status(202).json({
+                message:    "Connexion réussie",
+                userUuid:     user.uuid,
+                role:       user.isAdmin,
+                userName :  user.userName,
+                token:      token
+              })
         })
-        .catch(error => res.status(500).json({ error }))
+        .catch((error) => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }))
 }
 
 exports.logout = (req, res) => {
-    res.cookie('jwt', '', {maxAge: 1 });
-    res.redirect('/')
+    res.status(202).clearCookie('jwt').send("cookie supprimé");
+    console.log("logout")
+    res.redirect('/');
 }
 
     exports.userProfile = (req, res) => {
@@ -95,7 +126,7 @@ exports.adminDeleteProfile = (req, res) => {
     {
         models.user.destroy({ where: { id: req.query.uid}})
         models.post.destroy({ where: { userId: req.query.uid }})
-        medels.comment.destroy({ where: { userId: req.query.uid }})
+        models.comment.destroy({ where: { userId: req.query.uid }})
         .then((res) => {res.status(200).json({ message: "L'utilisateur a été supprimé !" })})
         .catch(error => res.status(400).json({ error }))
     } else {

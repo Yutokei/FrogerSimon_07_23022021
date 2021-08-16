@@ -77,3 +77,14 @@ exports.deletePost= (req, res) => {
     })
     .catch(error => res.status(500).json({ error }));
 }
+
+exports.adminDeletePost = (req, res) => {
+    if(req.query.isAdmin)
+    {
+        models.post.destroy({ where: { userId: req.query.uid }})
+        .then((res) => {res.status(200).json({ message: "Le post a été supprimé !" })})
+        .catch(error => res.status(400).json({ error }))
+    } else {
+        res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
+    }
+}
