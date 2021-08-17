@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
+import { AuthContext } from '../../auth/AuthContext';
 import axios from 'axios';
 
 const SignInForm = () => {
+    
+    const history =useHistory()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { setAuthState } = useContext(AuthContext)
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -29,8 +34,13 @@ const SignInForm = () => {
             }
             else {
                 localStorage.setItem("token", res.data.token);
-                
-                useHistory.push('/home');
+                setAuthState({
+                    username: res.data.username, 
+                    uuid: res.data.uuid,
+                    admin: res.data.isAdmin,
+                    status: true
+                });
+                history.push('/home');
             }
         })
         .catch((err) => {

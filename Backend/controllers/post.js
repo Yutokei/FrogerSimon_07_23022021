@@ -83,7 +83,7 @@ exports.deletePost= (req, res) => {
 exports.adminDeletePost = (req, res) => {
     if(req.query.isAdmin)
     {
-        models.post.destroy({ where: { userId: req.query.uid }})
+        models.post.destroy({ where: { userId: req.params.id }})
         .then((res) => {res.status(200).json({ message: "Le post a été supprimé !" })})
         .catch(error => res.status(400).json({ error }))
     } else {

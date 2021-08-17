@@ -27,11 +27,11 @@ exports.deleteComment = (req, res, next) => {
             .catch(error => res.status(400).json({ error }));
   };
 
-  exports.adminDeleteProfile = (req, res) => {
+  exports.adminDeleteComment = (req, res) => {
     if(req.query.isAdmin)
     {
         
-        models.comment.destroy({ where: { userId: req.query.uid }})
+        models.comment.destroy({ where: { id: req.params.commentId }})
         .then((res) => {res.status(200).json({ message: "L'utilisateur a été supprimé !" })})
         .catch(error => res.status(400).json({ error }))
     } else {

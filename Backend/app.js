@@ -29,9 +29,10 @@ require('./database/connection');
 // Configuration cors
 const corsOptions = {
   origin: process.env.CLIENT_PORT,
-  Credentials: true,
-  'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
+  credentials: true,
+  optionSuccessStatus:200,
+  'allowedHeaders': ['token', 'Content-Type'],
+  'exposedHeaders': ['token'],
   'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
   'preflightContinue': false
 }

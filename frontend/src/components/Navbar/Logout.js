@@ -1,11 +1,11 @@
 import React from 'react';
 import logoutImg from '../../assets/log-out.png'
 
+
 const Logout = () => {
 
     const logout = () => {
-
-        localStorage.removeItem("token")
+        localStorage.removeItem("token");
 
         window.location = "/"
     }

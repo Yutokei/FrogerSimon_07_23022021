@@ -23,7 +23,7 @@ exports.signUp = (req, res, next) => {
 
             console.log(encrytptedEmail);
 
-            const user = new models.users({
+            const user = new models.User({
                 userName: req.body.userName,
                 email: req.body.email,
                 password: hash
@@ -39,8 +39,8 @@ exports.signUp = (req, res, next) => {
 exports.signIn = (req, res) => {
     
     const userEmail = req.body.email;
-
-    models.users.findOne({where: { email: userEmail }})
+    console.log(req.body.email)
+    models.User.findOne({where: { email: userEmail }})
     .then(user => {
         if (!user)  {
             return res.status(401).json({ error: 'Utilisateur non trouvé' });
@@ -59,11 +59,11 @@ exports.signIn = (req, res) => {
                 })
               };
 
-            const token = createToken(user.id);
+            const token = createToken(user.uuid, user.userName);
             res.status(202).json({
                 message:    "Bienvenue " + user.userName,
-                userUuid:     user.uuid,
-                role:       user.isAdmin,
+                uuid:     user.uuid,
+                admin:       user.isAdmin,
                 userName :  user.userName,
                 token:      token
               })
@@ -74,7 +74,7 @@ exports.signIn = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-    res.status(202).clearCookie('jwt').send("cookie supprimé");
+    res.status(200).send("Utilisateur-rice déconnecté-e");
     console.log("logout")
     res.redirect('/');
 }
@@ -123,4 +123,16 @@ exports.adminDeleteProfile = (req, res) => {
     } else {
         res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
     }
+}
+
+exports.validateToken = (req, res) => {
+    const userUuid = req.header.uuid
+    models.User.findOne({where: { uuid: userUuid }})
+    .then(user =>{
+    res.status(200).json({                 
+        uuid:     user.uuid,
+        admin:       user.isAdmin,
+        userName :  user.userName
+    })
+})
 }

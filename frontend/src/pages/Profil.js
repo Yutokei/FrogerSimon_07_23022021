@@ -1,9 +1,10 @@
 import React from 'react';
+import UserProfil from '../components/Profil/UserProfil';
 
 const Pofil = () => {
     return (
         <div>
-            Hello profil
+            <UserProfil />
         </div>
     )
 }
