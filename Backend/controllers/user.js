@@ -3,6 +3,7 @@ const bcrypt =          require('bcrypt');
 const jwtUtils =        require('../utils/jwt.utils');
 const jwt   =           require('jsonwebtoken')
 const models =          require('../models');
+const jwt_decode = require('jwt-decode');
 const cryptoJs =        require('crypto-js')
 require('dotenv').config
 
@@ -126,9 +127,9 @@ exports.adminDeleteProfile = (req, res) => {
 }
 
 exports.validateToken = (req, res) => {
-    const userUuid = req.header.uuid;
-    console.log("uuid " + req.headers.token.uuid)
-    models.User.findOne({where: { uuid: userUuid }})
+    const token = jwt_decode(req.headers.token)
+    console.log(token)
+    models.User.findOne({where: { uuid: token.uuid }})
     .then(user =>{
     res.status(200).json({                 
         uuid:     user.uuid,

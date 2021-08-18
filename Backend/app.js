@@ -31,7 +31,7 @@ const corsOptions = {
   origin: process.env.CLIENT_PORT,
   credentials: true,
   optionSuccessStatus:200,
-  'allowedHeaders': ['token', 'Content-Type'],
+  'allowedHeaders': ['token','uuid', 'Content-Type'],
   'exposedHeaders': ['token'],
   'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
   'preflightContinue': false

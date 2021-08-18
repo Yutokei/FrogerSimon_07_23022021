@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import jwt_decode from "jwt-decode";
 import { useHistory } from 'react-router';
 import { AuthContext } from '../../auth/AuthContext';
 import axios from 'axios';
@@ -34,10 +35,15 @@ const SignInForm = () => {
             }
             else {
                 localStorage.setItem("token", res.data.token);
+
+                const decodedToken = jwt_decode(res.data.token)
+
+                console.log(decodedToken)
+
                 setAuthState({
-                    username: res.data.username, 
-                    uuid: res.data.uuid,
-                    admin: res.data.isAdmin,
+                    username: decodedToken.username, 
+                    uuid: decodedToken.uuid,
+                    admin: decodedToken.isAdmin,
                     status: true
                 });
                 history.push('/home');
