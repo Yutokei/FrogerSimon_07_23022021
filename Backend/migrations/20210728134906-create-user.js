@@ -13,7 +13,7 @@ id:         {type: DataTypes.INTEGER(11),
 },
 email:      {type:       DataTypes.STRING,
             allowNull:   false,
-            unique:     false
+            unique:     true
 },
 username:  {type:       DataTypes.STRING,
             allowNull:   false,

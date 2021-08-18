@@ -8,7 +8,11 @@ module.exports = {
               autoIncrement:  true,
               primaryKey:     true,
       },
-      userId: {
+      userName: {
+        type:          DataTypes.INTEGER(11),
+        allowNull:     false
+      },
+      userUuid: {
               type:          DataTypes.INTEGER(11),
               allowNull:     false
       },

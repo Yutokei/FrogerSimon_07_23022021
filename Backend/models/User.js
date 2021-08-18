@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Post, {
         onDelete: "cascade",
       })
+      User.hasMany(models.Comment, {
+        onDelete: "cascade"
+      })
     }
     toJSON(){
       return { ...this.get(), id: undefined}
@@ -30,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
    },
     email:      {type:       DataTypes.STRING,
                 allowNull:   false,
-                unique:      false
+                unique:      true,
     },
     userName:  {type:       DataTypes.STRING,
                 allowNull:   false,
-                unique:      true
+                unique:      true,
     },
     password:  {type:        DataTypes.STRING,
                 allowNull:   false

@@ -3,8 +3,8 @@ import UserProfil from '../components/Profil/UserProfil';
 
 const Pofil = () => {
     return (
-        <div>
-            <UserProfil />
+        <div className="profil-page">  
+                <UserProfil />
         </div>
     )
 }

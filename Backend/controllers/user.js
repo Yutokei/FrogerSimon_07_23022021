@@ -19,10 +19,7 @@ exports.signUp = (req, res, next) => {
         .hash(req.body.password, 10)
         .then(hash => {
             console.log(req.body);
-
-            const encrytptedEmail = cryptoJs.AES.encrypt(req.body.email, process.env.CRYPTO_KEY).toString();
-
-            console.log(encrytptedEmail);
+            
 
             const user = new models.User({
                 userName: req.body.userName,
@@ -82,21 +79,22 @@ exports.logout = (req, res) => {
 
     exports.userProfile = (req, res) => {
         const userProfile = {}
-        const uuid = req.params.uuid
-        models.user.findOne({ where: { uuid }})
+        const uuid = req.headers.uuid
+        models.User.findOne({ where: { uuid }})
             .then(user => {
                 userProfile.userName = user.userName
                 userProfile.email = user.email
                 userProfile.isAdmin = user.isAdmin
+                res.status(200).json(userProfile)
             })
             .catch(error => res.status(500).json(error))
-        models.post.findAll({ where: { uuid } })
-            .then((userPosts) => { res.status(200).json(userPosts)})
-            .catch((error) => { res.status(404).json({ error })})
+        //models.Post.findAll({ where: { uuid } })
+            //.then((userPosts) => { res.status(200).json(userPosts)})
+            //.catch((error) => { res.status(404).json({ error })})
     };
 
     exports.getAllProfiles = (req, res) => {
-        models.user.findAll()
+        models.User.findAll()
         .then((users) => { res.status(200).json(users)})
         .catch((error) => { res.status(400).json({message: error})})
     }

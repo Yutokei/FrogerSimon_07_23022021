@@ -1,6 +1,7 @@
-const Post = require('../models/post');
-const User = require('../models/user');
-const Comment = require('../models/comment')
+const models = require('../models')
+const Post = models.Post;
+const User = models.User
+const Comment = models.Commnent
 const fs = require('fs');
 
 exports.createPost= (req, res) => {
@@ -38,6 +39,15 @@ exports.getAllPosts = (req, res) => {
     })
     .catch(error => res.status(400).json({ error }))
     
+}
+
+exports.getAllPostsFromUser = (req, res) => {
+    const uuid = req.headers.uuid;
+    const listOfPosts = Post.findAll({
+      where: { userUuid: uuid },
+    })
+    .then(()=>res.json(listOfPosts))
+    .catch(error => res.status(404).json({ error }))
 }
 
 exports.updatePost= (req, res) => {

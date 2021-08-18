@@ -10,11 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
         Post.hasMany(models.Comment, {
         onDelete: "cascade",
-      })
-    
+      }) 
     }
   };
   Post.init({
@@ -23,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
                   allowNull:      false,
                   autoIncrement:  true,
                   primaryKey:     true,
+},  userUuid: {
+                  type:          DataTypes.INTEGER(11),
+                  allowNull:     false
 },
     userName: {
                   type:          DataTypes.INTEGER(11),

@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     postId: {type:          DataTypes.INTEGER(11),
             allowNull:     false
     },
-    userId: {type:          DataTypes.INTEGER(11),
+    userUuid: {type:          DataTypes.INTEGER(11),
             allowNull:     false
     },
     Textcontent: {type:     DataTypes.STRING(300),
