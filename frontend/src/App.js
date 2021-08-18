@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Profil from "./pages/Profil";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar/Navbar";
+import ProtectedRoute from "./auth/ProtectedRoute";
 import { AuthContext } from "./auth/AuthContext";
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -35,16 +36,16 @@ const App = () => {
           console.log(authState)
         }
       })
-    })
+    }, [])
 
   return (
     <AuthContext.Provider value={{ authState, setAuthState}}>
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/home" exact component={Home} />
-          <Route path="/profil" exact component={Profil} />
-          <Login path="/" exact component={Login} />
+          <ProtectedRoute path="/home" exact component={Home} />
+          <ProtectedRoute path="/profil" exact component={Profil} />
+          <Route path="/" exact component={Login} />
           <Redirect to="/" />
         </Switch>
       </Router>

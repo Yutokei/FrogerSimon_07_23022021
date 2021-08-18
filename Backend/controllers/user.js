@@ -53,13 +53,13 @@ exports.signIn = (req, res) => {
 
             const maxAge = 3 * 24 * 60 * 60 * 1000;
 
-            const createToken = (uuid, userName) => {
-                return jwt.sign({uuid: uuid, userName: userName}, process.env.TOKEN_KEY, {
+            const createToken = (uuid, userName, isAdmin) => {
+                return jwt.sign({uuid: uuid, userName: userName, admin: isAdmin}, process.env.TOKEN_KEY, {
                   expiresIn: maxAge
                 })
               };
 
-            const token = createToken(user.uuid, user.userName);
+            const token = createToken(user.uuid, user.userName, user.isAdmin);
             res.status(202).json({
                 message:    "Bienvenue " + user.userName,
                 uuid:     user.uuid,
@@ -126,7 +126,8 @@ exports.adminDeleteProfile = (req, res) => {
 }
 
 exports.validateToken = (req, res) => {
-    const userUuid = req.header.uuid
+    const userUuid = req.header.uuid;
+    console.log("uuid " + req.headers.token.uuid)
     models.User.findOne({where: { uuid: userUuid }})
     .then(user =>{
     res.status(200).json({                 

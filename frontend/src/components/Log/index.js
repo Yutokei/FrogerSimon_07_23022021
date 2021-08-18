@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import SignUpForm from './SignUpForm'
-import SignInForm from './SigInForm'
+import SignInForm from './SignInForm'
 
 
 const Log = () => {

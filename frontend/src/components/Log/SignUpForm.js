@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SignInForm from './SigInForm';
+import SignInForm from './SignInForm';
 import axios from "axios";
 
 const SignUpForm = () => {
