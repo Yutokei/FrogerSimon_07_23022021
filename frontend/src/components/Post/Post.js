@@ -8,11 +8,11 @@ const Post = (element, key) => {
 
   const [textComment, setTextComment] = useState("");
 
-  const [allComments, setAllComments] = useState([])
-
   const { authState } = useContext(AuthContext);
 
   const decodedToken = jwt_Decode(localStorage.getItem("token"));
+
+  const post = element.element;
 
   const deletePost = (id) => {
     axios({
@@ -25,7 +25,15 @@ const Post = (element, key) => {
     })
   };
 
-  const postComment = (id) => {
+  let commentObject = {
+    postId: post.postId,
+    userName: decodedToken.userName,
+    userUuid: decodedToken.uuid,
+    textContent: textComment,
+  }
+
+  const postComment = (e) => {
+    e.preventDefault();
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_API_URL}api/comment`,
@@ -34,47 +42,29 @@ const Post = (element, key) => {
         uuid: decodedToken.uuid,
       },
       data: {
-        postId: id,
-        userName: decodedToken.userName,
-        userUuid: decodedToken.uuid,
-        textContent: textComment,
+          commentObject
       },
     });
   };
-
-  const getComments = () => {
-    axios({
-      method:'GET',
-      url:`${process.env.REACT_APP_API_URL}api/comment/${element.id}`,
-      headers: {token: localStorage.getItem("token"), uuid: decodedToken.uuid},
-  })
-  .then((res)=> {
-      setAllComments(res.data)
-  })
-  }
-
-    useEffect(()=> {
-      getComments();
-  },[])
 
   return (
     <div>
       <ul>
         <li key={key} className="">
           <div className="">
-            <h3>{element.userName}</h3>
-            <h4>Posté le{element.createdAt}</h4>
+            <h3>{post.userName}</h3>
+            <h4>Posté le {post.createdAt}</h4>
           </div>
           <div className="">
-            <h3>{element.textContent}</h3>
+            <h3>{post.textContent}</h3>
           </div>
           <div className="">
-            <h3>{element.imageContent}</h3>
+            <img className="post-gif" src={post.imageContent} alt=""/>
           </div>
-          {authState.userName === element.userName && (
+          {authState.userName === post.userName && (
             <button
               onClick={() => {
-                deletePost(element.postId);
+                deletePost(post.postId);
               }}
               className="danger post-id"
             >
@@ -84,9 +74,7 @@ const Post = (element, key) => {
           <form
             key={key}
             className="comment-form"
-            onSubmit={() => {
-              postComment(element.id);
-            }}
+            onSubmit={postComment}
           >
             <div className="comment-container">
               <div>{authState.userName} :</div>
@@ -112,7 +100,7 @@ const Post = (element, key) => {
         </li>
       </ul>
       <div>
-        {allComments.map((element, key) =>(
+        {post.Comments.map((element, key) =>(
           <Comment element={element} key={key} />
           ))
         }

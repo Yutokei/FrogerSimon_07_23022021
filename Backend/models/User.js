@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       })
       User.hasMany(models.Comment, {
+        foreignKey:"userUuid",
         onDelete: "cascade"
       })
     }

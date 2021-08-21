@@ -1,15 +1,13 @@
 const models = require('../models')
 const Post = models.Post;
 const User = models.User
-const Comment = models.Commnent
+const Comment = models.Comment
 
 exports.createPost= (req, res) => {
-    console.log(req.body.postObject)
     const postObject = req.body.postObject;
     const post = new Post({
         ...postObject,
     })
-    console.log(post)
     post.save()
         .then(() => res.status(201).json({ message: "C'est publié" }))
         .catch(error => res.status(400).json({ error }))
@@ -19,14 +17,14 @@ exports.createPost= (req, res) => {
 exports.getAllPosts = (req, res) => {
     let allPosts = "";
     Post.findAll({ 
-        order: [["postId", "DESC"]],
+        order: [["updatedAt", "DESC"]],
+        include: Comment,
     })    
     .then(response => {
         allPosts = response
         res.status(200).json(allPosts)
     })
-    .catch(error => {res.status(400).json({ error })
-    console.log(error)})
+    .catch(error => {res.status(400).json({ error })})
     
 }
 
@@ -35,13 +33,13 @@ exports.getAllPostsFromUser = (req, res) => {
     const uuid = req.headers.uuid;
     Post.findAll({
       where: { userUuid: uuid },
+      order: [["updatedAt", "DESC"]],
+      include: Comment,
     })
     .then((response)=>{
         listOfPosts = response;
-        console.log(res)
         res.status(200).json(listOfPosts)})
     .catch(error => {
-        console.log(error)
         res.status(400).json({ error })
     })
 }

@@ -1,13 +1,12 @@
 const models = require('../models');
 const Comment = models.Comment;
-const User = models.user;
+const Post = models.Post
+const User = models.User;
 
 exports.createComment = (req, res) => {
-    const comment = new Comment(
-        {
-            userId:     req.body.userId,
-            postId:     req.body.postId,
-            Textcontent:req.body.Textcontent
+    const commentObject = req.body.commentObject
+    const comment = new Comment({
+            ...commentObject
         }
     )
     comment.save()
@@ -38,4 +37,10 @@ exports.deleteComment = (req, res, next) => {
     } else {
         res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
     }
-} 
+}
+exports.getAllComments = (req, res) =>{
+    Post.findAll({include: Comment})
+    .then((comments)=>{
+        res.json(comments)})
+    .catch((err)=> console.log(err))
+}

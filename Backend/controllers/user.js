@@ -18,9 +18,7 @@ exports.signUp = (req, res, next) => {
     bcrypt
         .hash(req.body.password, 10)
         .then(hash => {
-            console.log(req.body);
-            
-
+        
             const user = new models.User({
                 userName: req.body.userName,
                 email: req.body.email,
@@ -37,7 +35,6 @@ exports.signUp = (req, res, next) => {
 exports.signIn = (req, res) => {
     
     const userEmail = req.body.email;
-    console.log(req.body.email)
     models.User.findOne({where: { email: userEmail }})
     .then(user => {
         if (!user)  {
@@ -73,8 +70,6 @@ exports.signIn = (req, res) => {
 
 exports.logout = (req, res) => {
     res.status(200).send("Utilisateur-rice déconnecté-e");
-    console.log("logout")
-    res.redirect('/');
 }
 
     exports.userProfile = (req, res) => {
@@ -88,9 +83,6 @@ exports.logout = (req, res) => {
                 res.status(200).json(userProfile)
             })
             .catch(error => res.status(500).json(error))
-        //models.Post.findAll({ where: { uuid } })
-            //.then((userPosts) => { res.status(200).json(userPosts)})
-            //.catch((error) => { res.status(404).json({ error })})
     };
 
     exports.getAllProfiles = (req, res) => {
@@ -126,7 +118,6 @@ exports.adminDeleteProfile = (req, res) => {
 
 exports.validateToken = (req, res) => {
     const token = jwt_decode(req.headers.token)
-    console.log(token)
     models.User.findOne({where: { uuid: token.uuid }})
     .then(user =>{
     res.status(200).json({                 

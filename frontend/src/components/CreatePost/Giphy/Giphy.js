@@ -21,7 +21,6 @@ function Giphy(props) {
       setErr(true);
       return;
     }
-    console.log(search);
 
     const apiCall = async () => {
       setLoading(true);

@@ -11,6 +11,9 @@ module.exports = {
       postId: {type:          DataTypes.INTEGER(11),
               allowNull:     false
       },
+      userName: {type:          DataTypes.STRING(200),
+        allowNull:     false
+  },
       userUuid: {type:          DataTypes.UUID,
               allowNull:     false
       },
