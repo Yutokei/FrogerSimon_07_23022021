@@ -3,7 +3,7 @@ import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
 
 
-const Log = () => {
+const Index = () => {
     const [signUpModal, setSignUpModal] = useState(true);
     const [signInModal, setSignInModal] = useState(false);
 
@@ -44,4 +44,4 @@ const Log = () => {
     )
 }
 
-export default Log
+export default Index

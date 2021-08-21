@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Profil from "./pages/Profil";
-import Login from "./pages/Login";
+import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ProtectedLogin from "./auth/ProtectedLogin";
@@ -13,7 +13,7 @@ axios.defaults.withCredentials = true;
 const App = () => {
   
     const [authState, setAuthState] = useState({
-      username: "",
+      userName: "",
       uuid: 0,
       admin: false,
       status: false,
@@ -31,7 +31,7 @@ const App = () => {
           setAuthState({...authState, status: false});
         }else{
           setAuthState({
-           username: res.data.userName,
+           userName: res.data.userName,
           uuid: res.data.uuid,
             admin: res.data.isAdmin,
             status: true,
@@ -43,11 +43,11 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ authState, setAuthState}}>
       <Router>
-        <Navbar />
+        <Navbar userName={authState.userName}/>
         <Switch>
           <ProtectedRoute path="/home" exact component={Home} />
           <ProtectedRoute path="/profil" exact component={Profil} />
-          <ProtectedLogin path="/" exact component={Login} />
+          <ProtectedLogin path="/" exact component={LoginPage} />
           <Redirect to="/" />
         </Switch>
       </Router>

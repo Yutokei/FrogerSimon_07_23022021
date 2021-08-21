@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Post, {
+        foreignKey:"userUuid",
         onDelete: "cascade",
       })
       User.hasMany(models.Comment, {
@@ -20,13 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     toJSON(){
       return { ...this.get(), id: undefined}
     }
+
   };
   User.init({
     uuid:       {type: DataTypes.UUID,
                 allowNull:      false,
                 defaultValue: DataTypes.UUIDV4
     },
-    id:         {type: DataTypes.INTEGER(11),
+    userId:         {type: DataTypes.INTEGER(11),
                 allowNull:      false,
                 autoIncrement:  true,
                 primaryKey:     true,

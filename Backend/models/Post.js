@@ -11,25 +11,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
         Post.hasMany(models.Comment, {
+          foreignKey:"postId",
         onDelete: "cascade",
+      })
+      Post.hasOne(models.User, {
+        foreignKey:"uuid",
+        onDelete:"cascade"
       }) 
     }
   };
   Post.init({
-    id: { 
+    postId: { 
                   type:           DataTypes.INTEGER(11),
                   allowNull:      false,
                   autoIncrement:  true,
                   primaryKey:     true,
 },  userUuid: {
-                  type:          DataTypes.INTEGER(11),
+                  type:          DataTypes.UUID,
                   allowNull:     false
 },
     userName: {
-                  type:          DataTypes.INTEGER(11),
+                  type:          DataTypes.STRING(200),
                   allowNull:     false
     },
-    textcontent: {
+    textContent: {
                   type:     DataTypes.STRING(500),
                   allowNull:false
     },

@@ -7,7 +7,6 @@ const fs = require('fs');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-const cryptojs = require('crypto-js');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
@@ -32,7 +31,7 @@ const corsOptions = {
   credentials: true,
   optionSuccessStatus:200,
   'allowedHeaders': ['token','uuid', 'Content-Type'],
-  'exposedHeaders': ['token'],
+  'exposedHeaders': ['token','uuid'],
   'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
   'preflightContinue': false
 }

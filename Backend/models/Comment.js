@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Comment.init({
-    id: { 
+    commentId: { 
             type:           DataTypes.INTEGER(11),
             allowNull:      false,
             autoIncrement:  true,
@@ -23,10 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     postId: {type:          DataTypes.INTEGER(11),
             allowNull:     false
     },
-    userUuid: {type:          DataTypes.INTEGER(11),
+    userName: {type:          DataTypes.STRING(200),
+      allowNull:     false
+},
+    userUuid: {type:          DataTypes.UUID,
             allowNull:     false
     },
-    Textcontent: {type:     DataTypes.STRING(300),
+    textContent: {type:     DataTypes.STRING(300),
                   allowNull:false
     }
   }, {

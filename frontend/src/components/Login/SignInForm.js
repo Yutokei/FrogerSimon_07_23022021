@@ -41,7 +41,7 @@ const SignInForm = () => {
                 console.log(decodedToken)
 
                 setAuthState({
-                    username: decodedToken.username, 
+                    userName: decodedToken.userName, 
                     uuid: decodedToken.uuid,
                     admin: decodedToken.isAdmin,
                     status: true

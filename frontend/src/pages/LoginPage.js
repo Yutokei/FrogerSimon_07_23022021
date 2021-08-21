@@ -1,13 +1,13 @@
 import React from 'react';
-import Log from '../components/Log/index'
+import Login from '../components/Login'
 import largeLogoImg from '../assets/Groupomania_logos/icon-above-font.png'
 
-const Login = () => {
+const LoginPage = () => {
 
     return (
         <div className="profil-page">           
             <div className="log-container">
-                <Log />
+                <Login />
                 <div className="image-container">
                     <img src={largeLogoImg} alt="img-log" />
                 </div>
@@ -16,4 +16,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default LoginPage;

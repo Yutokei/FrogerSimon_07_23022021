@@ -100,11 +100,11 @@ exports.logout = (req, res) => {
     }
 
 exports.deleteProfile = (req, res) => {
-    models.user.findOne({ id: req.params.id })
+    models.User.findOne({where:{ uuid: req.params.id }})
     .then(() => {
-        models.user.destroy({ where: { userId: req.params.id }})
-        models.Post.destroy({ where: { userId: req.params.id }})
-        user.destroy({ where: { id: req.params.id }}) 
+        models.Comment.destroy({ where: { userUuid: req.params.id }})
+        models.Post.destroy({ where: { userUuid: req.params.id }})
+        models.User.destroy({ where: { uuid: req.params.id }}) 
         .then( () => res.status(204).json({message: "Utilisateur supprimé"}))
         .catch(error => res.status(400).json(error))
     })

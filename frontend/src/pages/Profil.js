@@ -1,10 +1,10 @@
 import React from 'react';
-import UserProfil from '../components/Profil/UserProfil';
+import Profil from '../components/Profil';
 
 const Pofil = () => {
     return (
         <div className="profil-page">  
-                <UserProfil />
+                <Profil />
         </div>
     )
 }

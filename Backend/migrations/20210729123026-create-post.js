@@ -2,25 +2,25 @@
 module.exports = {
   up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable('posts', {
-      id: { 
+      postId: { 
               type:           DataTypes.INTEGER(11),
               allowNull:      false,
               autoIncrement:  true,
               primaryKey:     true,
       },
       userName: {
-        type:          DataTypes.INTEGER(11),
+        type:          DataTypes.STRING(200),
         allowNull:     false
       },
       userUuid: {
-              type:          DataTypes.INTEGER(11),
+              type:          DataTypes.UUID,
               allowNull:     false
       },
-      Textcontent: {
+      textContent: {
               type:     DataTypes.STRING(500),
               allowNull:false
       },
-      ImageContent:{
+      imageContent:{
               type:     DataTypes.STRING(200)},
 
       createdAt: {

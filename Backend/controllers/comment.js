@@ -15,9 +15,10 @@ exports.createComment = (req, res) => {
     .catch(error => res.status(400).json({ error }))
 };
 
-exports.getAllComments = (req, res, next) => {
-    Comment.findAll()
-    .then(comments => { res.status(200).json(comments) })
+exports.getCommentsByPost = (req, res, next) => {
+    const postId = req.params.id;
+    Comment.findAll({where: {postId : postId}})
+    .then(postComments => { res.status(200).json(postComments) })
     .catch(error => res.status(400).json({ error }))
 };
 

@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable('comments', {
-      id: { 
+      commentId: { 
               type:           DataTypes.INTEGER(11),
               allowNull:      false,
               autoIncrement:  true,
@@ -11,10 +11,10 @@ module.exports = {
       postId: {type:          DataTypes.INTEGER(11),
               allowNull:     false
       },
-      userUuid: {type:          DataTypes.INTEGER(11),
+      userUuid: {type:          DataTypes.UUID,
               allowNull:     false
       },
-      Textcontent: {type:     DataTypes.STRING(300),
+      textContent: {type:     DataTypes.STRING(300),
                     allowNull:false
       },
       createdAt: {

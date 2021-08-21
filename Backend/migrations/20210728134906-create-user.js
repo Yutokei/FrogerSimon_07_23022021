@@ -6,7 +6,7 @@ uuid:       {type: DataTypes.UUID,
             allowNull:      false,
             defaultValue: DataTypes.UUIDV4
 },
-id:         {type: DataTypes.INTEGER(11),
+userId:         {type: DataTypes.INTEGER(11),
             allowNull:      false,
             autoIncrement:  true,
             primaryKey:     true,
@@ -15,7 +15,7 @@ email:      {type:       DataTypes.STRING,
             allowNull:   false,
             unique:     true
 },
-username:  {type:       DataTypes.STRING,
+userName:  {type:       DataTypes.STRING,
             allowNull:   false,
             unique:     true
 },
