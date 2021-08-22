@@ -14,6 +14,7 @@ exports.createComment = (req, res) => {
     .catch(error => res.status(400).json({ error }))
 };
 
+//à DELETE
 exports.getCommentsByPost = (req, res, next) => {
     const postId = req.params.id;
     Comment.findAll({where: {postId : postId}})
@@ -22,9 +23,12 @@ exports.getCommentsByPost = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-          Coment.deleteOne({ id: req.params.id })
+          Comment.destroy({where: { commentId: req.body.id }})
             .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
-            .catch(error => res.status(400).json({ error }));
+            .catch((error) => {
+                res.status(400).json({ error })
+                console.log(error)
+            });
   };
 
   exports.adminDeleteComment = (req, res) => {

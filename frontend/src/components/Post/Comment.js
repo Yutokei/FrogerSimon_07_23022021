@@ -18,7 +18,8 @@ const Comment = (element, key) => {
             token: localStorage.getItem("token"),
             uuid: decodedToken.uuid,
           },
-            url: `${process.env.REACT_APP_API_URL}api/comment/${id}`,
+            url: `${process.env.REACT_APP_API_URL}api/comment/id:`,
+            data:{ id}
         })
       };
 
@@ -30,7 +31,7 @@ const Comment = (element, key) => {
             </div>
 
             {authState.userName === comment.userName && (
-              <button onClick={()=>{deleteComment(comment.id)}}> X </button>
+              <button onClick={()=>{deleteComment(comment.commentId)}}> X </button>
             )}
         </div>
     );
