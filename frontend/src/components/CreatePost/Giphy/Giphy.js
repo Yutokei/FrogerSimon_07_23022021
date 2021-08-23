@@ -1,4 +1,3 @@
-import TextList from "./Textlist";
 import Error from "./Error";
 import { React, useState } from "react";
 import "./style.scss";
@@ -9,13 +8,17 @@ function Giphy(props) {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [gifsResults, setGifsResults] = useState([]);
+  const [selectedGif, setSelectedGif] = useState(false);
+  
   const [err, setErr] = useState(false);
 
   const handleInput = (e) => {
     setSearch(e.target.value);
+    setSelectedGif(false)
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault()
     if (search.length === 0) {
       //set error state to true
       setErr(true);
@@ -51,7 +54,8 @@ function Giphy(props) {
     setSearch(url);
     props.gifUrl(url);
     setGifsResults([]);
-    console.log("url "+ props.gifUrl);
+    
+    setSelectedGif(true)
 }
 
   return (
@@ -63,7 +67,7 @@ function Giphy(props) {
         value={search}
         onChange={handleInput}
       />
-      <button className="submit-btn" onClick={()=>{handleSubmit()}}>
+      <button className="submit-btn" onClick={handleSubmit}>
         Giphy
       </button>
       <Error isError={err} text="Entrez au moins quelques lettres !" />
@@ -84,6 +88,9 @@ function Giphy(props) {
           </div>
         )}
       </div>
+      {selectedGif && (
+        <img src={search} alt="" />
+      )}
     </div>
   );
 }

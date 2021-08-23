@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Comment.belongsTo(models.Post,{
+        foreignKeyConstraint: true,
         foreignKey: "postId",
         onDelete: "cascade"
       })

@@ -27,7 +27,6 @@ const CreatePost = () => {
 
     const handleCreatePost = (e) => {
         e.preventDefault();
-        console.log(imageContent)
         axios({
             method:'POST',
             url:`${process.env.REACT_APP_API_URL}api/post/`,
@@ -40,10 +39,14 @@ const CreatePost = () => {
                 postObject
             }
         })
+        .then(()=>{
+            setImageContent("")
+            setTextContent("")
+        })
     }
 
     return (
-        <form className="create-post-form-container" onSubmit={handleCreatePost}>
+        <form className="create-post-form-container" >
             <div className="post-container">
                 <div className="form-userName"><h3>{tokenUserName}</h3></div>
                 <div className="form-textArea">
@@ -51,7 +54,7 @@ const CreatePost = () => {
                     <input className="form-text" type="text" name="textContent" autoComplete="off" onChange={(e) => setTextContent(e.target.value)} value={textContent}/>
                 </div>
                 <Giphy gifUrl={url => setImageContent(url)}/>
-                <input className="form-input" type="submit" value="Valider le post" />
+                <input className="form-input" type="submit" value="Valider le post" onClick={handleCreatePost} />
             </div>
         </form>
     );

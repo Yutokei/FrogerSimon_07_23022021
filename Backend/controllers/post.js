@@ -52,7 +52,7 @@ exports.updatePost= (req, res) => {
 }
 
 exports.deletePost= (req, res) => {
-        Comment.destroy({where:{ postId: req.params.id}})
+        //Comment.destroy({where:{ postId: req.params.id}})
         Post.destroy({where:{ postId: req.params.id }})
           .then(() => res.status(200).json({ message: 'Post supprimée!' }))
           .catch(error => res.status(400).json({ error }));

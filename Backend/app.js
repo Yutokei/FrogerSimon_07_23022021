@@ -11,6 +11,7 @@ const helmet = require('helmet');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
+const adminRoute = require('./routes/admin')
 
 const app = express();
 
@@ -49,5 +50,6 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
+app.use('/api/admin', adminRoute)
 
 module.exports = app;
