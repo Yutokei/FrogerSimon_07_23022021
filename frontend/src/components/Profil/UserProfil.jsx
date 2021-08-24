@@ -8,8 +8,16 @@ const UserProfile = () => {
     const  {authState}  = useContext(AuthContext);
 
     const  {data, loading, error} = useAxiosGet(`user/${authState.uuid}`)
-        console.log("data "+data)
+        let role = ""
 
+    const isAdmin = () => {
+        if(data.userRole === true){
+            role = "Admin"
+        }else{
+            role = "utilisateur"
+        }
+    }
+    isAdmin()
 
     const removeUser = (e) => {
         e.preventDefault()
@@ -33,7 +41,7 @@ const UserProfile = () => {
                 <ul className="right-part">
                         <li><h3>Nom d'utilisateur: {data.userName}</h3></li>
                         <li><h3>Email: {data.userEmail}</h3></li>
-                        <li><h3>Role: {data.userRole}</h3></li>
+                        <li><h3>Role: {role}</h3></li>
                     </ul>
                     <button onClick={removeUser}>Supprimer le profil</button>  
                 </div>

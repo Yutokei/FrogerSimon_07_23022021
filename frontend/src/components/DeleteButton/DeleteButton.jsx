@@ -4,8 +4,6 @@ import { AuthContext } from '../../auth/AuthContext';
 
 const DeleteButton = (props) => {
     const {authState, setAuthState} = useContext(AuthContext)
-    const [displayError, setDisplayErrror] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
 
     const axiosDelete = (url) =>{
         axios({
@@ -20,10 +18,9 @@ const DeleteButton = (props) => {
       .then(()=>{
         setAuthState({...authState, update: authState.update + 1 })
       })
-      .catch((res)=>{
-        setDisplayErrror(true)
-        console.log(res)
-        setErrorMessage("Refusé")
+      .catch((error)=>{
+        alert("Échec de la suppression " + error)
+        console.log(error)
       })
 }
     return (
@@ -31,12 +28,6 @@ const DeleteButton = (props) => {
         <button onClick={()=>{axiosDelete(props.url)}}>
            {props.function} 
         </button>
-        
-        <div>
-        { displayError && (
-          <div>{errorMessage}</div>
-        )}
-        </div>
     </>
     );
 }

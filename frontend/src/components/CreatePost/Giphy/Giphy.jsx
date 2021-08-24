@@ -12,6 +12,7 @@ function Giphy(props) {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [gifsResults, setGifsResults] = useState([]);
+  const [displayCloseButton, setDisplayCloseButton] = useState(false)
   
   const [err, setErr] = useState(false);
 
@@ -43,6 +44,7 @@ function Giphy(props) {
           return res.json();
         })
         .then((result) => {
+          setDisplayCloseButton(true)
           setGifsResults(
             result.data.map((gif, key) => {
               return gif.images.fixed_height.url;
@@ -57,11 +59,13 @@ function Giphy(props) {
     apiCall();
     //change error state back to false
     setSearch("");
+    setDisplayCloseButton(false)
     setErr(false);
   };
 
   const handleGif = (url) => {
     setSearch("");
+    setDisplayCloseButton(false)
     props.gifUrl(url);
     setGifsResults([]);
 }
@@ -86,7 +90,9 @@ function Giphy(props) {
           </div>
         ) : (
           <div className="gifs-list">
-            <button onClick={handleCloseList}> X </button>
+           {displayCloseButton && (
+           <button onClick={handleCloseList}> X </button>
+           )} 
             {gifsResults.map((gif, key) => {
               return (
                 <button className="gif-item" onClick={()=>{handleGif(gif)}}>

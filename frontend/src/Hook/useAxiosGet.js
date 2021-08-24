@@ -8,8 +8,10 @@ import { AuthContext } from "../auth/AuthContext";
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    useEffect(()=>{
-        setLoading(true)
+
+useEffect(()=>{
+    setLoading(true)
+    if(authState.uuid !== 0){
         axios({
             method: "GET",
             url: `${process.env.REACT_APP_API_URL}api/${url}`,
@@ -23,14 +25,15 @@ import { AuthContext } from "../auth/AuthContext";
             setData(response.data)
         })
         .catch((error)=>{
-            alert(error)
+            alert("Échec de la connection " + error)
             setError(error)
         })
         .finally(()=>{
             setLoading(false)
         })
-    },[authState])
+    }
 
+},[authState])
     
 
     return { data, loading, error};
