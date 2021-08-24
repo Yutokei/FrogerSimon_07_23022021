@@ -5,13 +5,13 @@ import { AuthContext } from '../../auth/AuthContext';
 import axios from 'axios';
 
 const SignInForm = () => {
-    
+    const { setAuthState } = useContext(AuthContext)
+
     const history =useHistory()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { setAuthState } = useContext(AuthContext)
 
     const handleLogin = (e) => {
         e.preventDefault();

@@ -40,16 +40,12 @@ const SignUpForm = () => {
         },
       })
         .then((res) => {
-          console.log(res);
-          if (res.data.errors) {
-            pseudoError.innerHTML = res.data.errors.userName;
-            emailError.innerHTML = res.data.errors.email;
-            passwordError.innerHTML = res.data.errors.password;
-          } else {
             setFormSubmit(true);
-          }
         })
-        .catch((err) => console.log(err));
+        .catch((error) =>{
+          alert("Échec" + error)
+           console.log(error)
+          });
     }
   };
 
