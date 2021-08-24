@@ -32,9 +32,10 @@ const App = () => {
         }else{
           setAuthState({
            userName: res.data.userName,
-          uuid: res.data.uuid,
-            admin: res.data.isAdmin,
+            uuid: res.data.uuid,
+            admin: res.data.admin,
             status: true,
+            update: 0
           });
         }
       })

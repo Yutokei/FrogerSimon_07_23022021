@@ -6,7 +6,6 @@ import CreatePost from '../components/CreatePost/CreatePost'
 const Home = () => {
 
     const { authState } = useContext(AuthContext);
-
  
     return (
         <div className="profil-page">

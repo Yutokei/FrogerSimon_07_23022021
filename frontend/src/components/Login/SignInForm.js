@@ -29,7 +29,6 @@ const SignInForm = () => {
         .then((res) => {
             if (res.data.errors) {
                 alert(res.data.error)
-                console.log(email)
                 emailError.innerHTML = res.data.errors.email;
                 passwordError.innerHTML = res.data.errors.password;
             }
@@ -37,8 +36,6 @@ const SignInForm = () => {
                 localStorage.setItem("token", res.data.token);
 
                 const decodedToken = jwt_decode(res.data.token)
-
-                console.log(decodedToken)
 
                 setAuthState({
                     userName: decodedToken.userName, 
@@ -67,7 +64,7 @@ const SignInForm = () => {
             />
             <div className="email error"></div>
             <br />
-            <label htmlFor="password">Email</label>
+            <label htmlFor="password">Mot de passe</label>
             <br />
             <input
              type="password" 

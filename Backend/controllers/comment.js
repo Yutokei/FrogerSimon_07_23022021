@@ -4,7 +4,7 @@ const Post = models.Post
 const User = models.User;
 
 exports.createComment = (req, res) => {
-    const commentObject = req.body.commentObject
+    const commentObject = req.body
     const comment = new Comment({
             ...commentObject
         }
@@ -14,21 +14,21 @@ exports.createComment = (req, res) => {
     .catch(error => res.status(400).json({ error }))
 };
 
-//à DELETE
-exports.getCommentsByPost = (req, res, next) => {
-    const postId = req.params.id;
-    Comment.findAll({where: {postId : postId}})
-    .then(postComments => { res.status(200).json(postComments) })
-    .catch(error => res.status(400).json({ error }))
-};
-
 exports.deleteComment = (req, res, next) => {
-          Comment.destroy({where: { commentId: req.body.id }})
+    console.log(req.params)
+    Comment.findOne({ where: {commentId: req.params.id}})
+    .then((comment)=>{
+        if(comment.userUuid === req.headers.uuid || req.headers.admin === "true"){
+            Comment.destroy({where: { commentId: req.params.id }})
             .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
             .catch((error) => {
-                res.status(400).json({ error })
                 console.log(error)
-            });
+                res.status(400).json({ error })
+            })
+        }
+    })
+    .catch((error)=> res.status(400).json({ error }))
+
   };
 
   exports.adminDeleteComment = (req, res) => {

@@ -5,13 +5,11 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const morgan = require('morgan');
-const helmet = require('helmet');
 
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const commentRoutes = require('./routes/comment');
-const adminRoute = require('./routes/admin')
 
 const app = express();
 
@@ -31,16 +29,14 @@ const corsOptions = {
   origin: process.env.CLIENT_PORT,
   credentials: true,
   optionSuccessStatus:200,
-  'allowedHeaders': ['token','uuid', 'Content-Type'],
-  'exposedHeaders': ['token','uuid'],
+  'allowedHeaders': ['token','uuid','admin', 'Content-Type'],
+  'exposedHeaders': ['token','uuid','admin'],
   'methods': 'GET,POST,HEAD,PUT,PATCH,DELETE',
   'preflightContinue': false
 }
 
 app.use(cors(corsOptions))
 
-// Sécurisation des headers
-app.use(helmet());
 // Log toutes les requêtes passées au serveur
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }));
@@ -50,6 +46,6 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
-app.use('/api/admin', adminRoute)
+
 
 module.exports = app;

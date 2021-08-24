@@ -4,7 +4,7 @@ const User = models.User
 const Comment = models.Comment
 
 exports.createPost= (req, res) => {
-    const postObject = req.body.postObject;
+    const postObject = req.body;
     const post = new Post({
         ...postObject,
     })
@@ -29,7 +29,7 @@ exports.getAllPosts = (req, res) => {
 }
 
 exports.getAllPostsFromUser = (req, res) => {
-    let listOfPosts = "";
+    let listOfPosts = [];
     const uuid = req.headers.uuid;
     Post.findAll({
       where: { userUuid: uuid },
@@ -52,19 +52,37 @@ exports.updatePost= (req, res) => {
 }
 
 exports.deletePost= (req, res) => {
-        //Comment.destroy({where:{ postId: req.params.id}})
-        Post.destroy({where:{ postId: req.params.id }})
-          .then(() => res.status(200).json({ message: 'Post supprimée!' }))
-          .catch(error => res.status(400).json({ error }));
+    Post.findOne({ where: {postId: req.params.id}})
+    .then((post)=>{
+        if(post.userUuid === req.headers.uuid || req.headers.admin === "true"){
+            Comment.destroy({where: {postId: req.params.id}})
+            Post.destroy({where: { postId: req.params.id }})
+            .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
+            .catch((error) => {
+                res.status(400).json({ error })
+            })
+        }else{
+            res.status(401).json({ message: "Vous ne pouvez effacer que les posts dont vous êtes l'auteur"})
+        }
+    })
+    .catch((error)=> res.status(400).json({ error }))
+
 }
 
 exports.adminDeletePost = (req, res) => {
-    if(req.query.isAdmin)
+    console.log(req.headers)
+    User.findOne({ where: {uuid : req.headers.uuid}})
+    .then ((user) =>{
+    if(user.isAdmin === 1)
     {
-        models.post.destroy({ where: { userId: req.params.id }})
+        Comment.destroy({ where: { postId: req.body.id }})
+        Post.destroy({ where: { postId: req.body.id }})
         .then((res) => {res.status(200).json({ message: "Le post a été supprimé !" })})
         .catch(error => res.status(400).json({ error }))
     } else {
+        console.log(user)
         res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
     }
+})
+.catch((error)=> res.status(400).json({message : "Vous n'êtes pas authentiifié-e " + error}))
 }

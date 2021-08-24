@@ -1,28 +1,9 @@
-import {React, useState, useEffect} from 'react';
-import axios from 'axios';
-import jwt_Decode from 'jwt-decode';
-import Post from './Post'
-
+import {React, useState} from 'react';
+import Post from './Post';
+import  useAxiosGet from '../../Hook/useAxiosGet'
 const Index = () => {
-
-    const [allPosts, setAllPosts] = useState([]);
-
-    const decodedToken = jwt_Decode(localStorage.getItem("token"))
-
-    const getPosts = () => { 
-    axios({
-          method:'GET',
-          url:`${process.env.REACT_APP_API_URL}api/post/`,
-          headers: {token: localStorage.getItem("token"), uuid: decodedToken.uuid},
-      })
-      .then((res)=> {
-          setAllPosts(res.data)
-      })
-  }
-
-    useEffect(()=> {
-        getPosts();
-    },[])
+    const [update, setUpdate] = useState(0)
+    const {data, loading, error} = useAxiosGet("post/", update,)
 
     return (
         <>
@@ -30,8 +11,8 @@ const Index = () => {
             <div>
                 Séparation
             </div>
-            {allPosts.map((post, key) => (
-                    <Post element={post} key={key}/>
+            {data.map((post, key) => (
+                    <Post element={post} mappingKey={key} />
                     ))
                 }
         </div>

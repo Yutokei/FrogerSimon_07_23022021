@@ -1,12 +1,12 @@
 import { React, useContext } from "react";
 import { NavLink } from "react-router-dom";
-//import { AuthContext } from "../../auth/AuthContext";
+import { AuthContext } from "../../auth/AuthContext";
 import logoImg from "../../assets/Groupomania_logos/icon.png";
 import Logout from "./Logout";
 
 const Navbar = ({userName}) => {
 
-  //const { authState } = useContext(AuthContext)
+const  {authState}  = useContext(AuthContext)
 
   return (
     <nav>
@@ -23,9 +23,10 @@ const Navbar = ({userName}) => {
           <>
             <li></li>
             <li className="welcome">
+              {authState.status &&(
               <NavLink exact to="/profil">
                 <h5>Le profil de {userName}</h5>
-              </NavLink>
+              </NavLink>)}
             </li>
             <Logout />
           </>

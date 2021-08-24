@@ -1,56 +1,28 @@
-import { React, useEffect, useState, useContext } from "react";
+import { React, useState, useContext } from "react";
 import { AuthContext } from "../../auth/AuthContext";
-import axios from "axios";
-import jwt_Decode from "jwt-decode";
-import Comment from "./Comment";
+import CreateButton from "../CreateButton/CreateButton";
 
-const Post = (element, key) => {
+import Comment from "./Comment";
+import DeleteButton from "../DeleteButton/DeleteButton";
+
+const Post = (props) => {
+  const { authState } = useContext(AuthContext);
 
   const [textComment, setTextComment] = useState("");
 
-  const { authState } = useContext(AuthContext);
-
-  const decodedToken = jwt_Decode(localStorage.getItem("token"));
-
-  const post = element.element;
-
-  const deletePost = (id) => {
-    axios({
-      method: "DELETE",
-      headers: {
-        token: localStorage.getItem("token"),
-        uuid: decodedToken.uuid,
-      },
-      url: `${process.env.REACT_APP_API_URL}api/post/${id}`,
-    })
-  };
+  const post = props.element;
 
   let commentObject = {
     postId: post.postId,
-    userName: decodedToken.userName,
-    userUuid: decodedToken.uuid,
+    userName: authState.userName,
+    userUuid: authState.uuid,
     textContent: textComment,
   }
-
-  const postComment = (e) => {
-    e.preventDefault();
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_API_URL}api/comment`,
-      headers: {
-        token: localStorage.getItem("token"),
-        uuid: decodedToken.uuid,
-      },
-      data: {
-          commentObject
-      },
-    });
-  };
 
   return (
     <div>
       <ul>
-        <li key={key} className="">
+        <li key={props.mappingKey} className="">
           <div className="">
             <h3>{post.userName}</h3>
             <h4>Posté le {post.createdAt}</h4>
@@ -61,20 +33,11 @@ const Post = (element, key) => {
           <div className="">
             <img className="post-gif" src={post.imageContent} alt=""/>
           </div>
-          {authState.userName === post.userName && (
-            <button
-              onClick={() => {
-                deletePost(post.postId);
-              }}
-              className="danger post-id"
-            >
-              Supprimer le post
-            </button>
+          {(authState.userName === post.userName || authState.admin) && (
+              <DeleteButton url={`post/${post.postId}`} function= "Supprimer le post"/>
           )}
           <form
-            key={key}
             className="comment-form"
-            onSubmit={postComment}
           >
             <div className="comment-container">
               <div>{authState.userName} :</div>
@@ -90,18 +53,14 @@ const Post = (element, key) => {
                 onChange={(e) => setTextComment(e.target.value)}
                 value={textComment}
               />
-              <input
-                className="comment-input"
-                type="submit"
-                value="Commenter"
-              />
+              <CreateButton url="comment" data={commentObject} function="Commenter"/>
             </div>
           </form>
         </li>
       </ul>
       <div>
-        {post.Comments.map((element, key) =>(
-          <Comment element={element} key={key} />
+        {post.Comments.map((comment, key) =>(
+          <Comment element={comment} mappingKey={key} />
           ))
         }
       </div>

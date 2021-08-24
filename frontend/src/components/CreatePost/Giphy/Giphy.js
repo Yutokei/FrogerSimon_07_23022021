@@ -2,19 +2,29 @@ import Error from "./Error";
 import { React, useState } from "react";
 import "./style.scss";
 
+
+
+
+
 function Giphy(props) {
   const giphyApi = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_KEY}&limit=20&offset=0&q=`;
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [gifsResults, setGifsResults] = useState([]);
-  const [selectedGif, setSelectedGif] = useState(false);
   
   const [err, setErr] = useState(false);
 
+
+  const handleCloseList = (e) => {
+    e.preventDefault()
+    setGifsResults([])
+    setSearch("");
+    props.gifUrl();
+  }
+
   const handleInput = (e) => {
     setSearch(e.target.value);
-    setSelectedGif(false)
   };
 
   const handleSubmit = (e) => {
@@ -51,11 +61,9 @@ function Giphy(props) {
   };
 
   const handleGif = (url) => {
-    setSearch(url);
+    setSearch("");
     props.gifUrl(url);
     setGifsResults([]);
-    
-    setSelectedGif(true)
 }
 
   return (
@@ -78,19 +86,17 @@ function Giphy(props) {
           </div>
         ) : (
           <div className="gifs-list">
+            <button onClick={handleCloseList}> X </button>
             {gifsResults.map((gif, key) => {
               return (
                 <button className="gif-item" onClick={()=>{handleGif(gif)}}>
-                  <img className="gif-image" id={key} src={gif} />
+                  <img className="gif-image" id={key} src={gif} alt=""/>
                 </button>
               );
             })}
           </div>
         )}
       </div>
-      {selectedGif && (
-        <img src={search} alt="" />
-      )}
     </div>
   );
 }
