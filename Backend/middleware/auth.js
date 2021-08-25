@@ -1,20 +1,20 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = (req, res, next) => {
-const token = req.headers["token"];
+  const token = req.headers["token"];
 
-if (!token) return res.json({ error: "Utilisateur non authentifié" });
+  if (!token) return res.json({ error: "Utilisateur non authentifié" });
 
-try {
-  const validToken = jwt.verify(token, process.env.TOKEN_KEY);
+  try {
+    const validToken = jwt.verify(token, process.env.TOKEN_KEY);
 
-  if (validToken) {
-    return next();
+    if (validToken) {
+      return next();
+    }
+  } catch (err) {
+    return res.json({ error: err });
   }
-} catch (err) {
-  return res.json({ error: err });
-}
 };

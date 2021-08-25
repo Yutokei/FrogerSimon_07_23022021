@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../auth/AuthContext';
+import './style.scss'
 
 const CreateButton = (props) => {
     const {authState, setAuthState} = useContext(AuthContext)
@@ -39,7 +40,7 @@ const CreateButton = (props) => {
 }
     return (
     <>
-        <button onClick={handlePost}>
+        <button className="create-button" onClick={handlePost}>
            {props.function} 
         </button>
     </>

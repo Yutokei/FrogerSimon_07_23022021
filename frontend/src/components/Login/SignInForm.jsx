@@ -15,40 +15,38 @@ const SignInForm = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const emailError = document.querySelector('.email.error')
-        const passwordError = document.querySelector('.password.error')
-        axios({
-            method:'post',
-            url: `${process.env.REACT_APP_API_URL}api/user/login`,
-            withCredentials: false,
-            data: {
-                email,
-                password,
-            }
-        })
-        .then((res) => {
-            if (res.data.errors) {
-                alert(res.data.error)
-                emailError.innerHTML = res.data.errors.email;
-                passwordError.innerHTML = res.data.errors.password;
-            }
-            else {
-                localStorage.setItem("token", res.data.token);
+        if(!email || !password){
+            alert("Vous n'avez pas remplis tout les champs")
+        }
+        else{
+            axios({
+                method:'post',
+                url: `${process.env.REACT_APP_API_URL}api/user/login`,
+                withCredentials: false,
+                data: {
+                    email,
+                    password,
+                }
+            })
+            .then((res) => {
+                    localStorage.setItem("token", res.data.token);
+    
+                    const decodedToken = jwt_decode(res.data.token)
+    
+                    setAuthState({
+                        userName: decodedToken.userName, 
+                        uuid: decodedToken.uuid,
+                        admin: decodedToken.isAdmin,
+                        status: true
+                    });
+                    history.push('/home'); 
+            })
+            .catch((err) => {
+                alert(err)
+                console.error(err)
+            })
+        }
 
-                const decodedToken = jwt_decode(res.data.token)
-
-                setAuthState({
-                    userName: decodedToken.userName, 
-                    uuid: decodedToken.uuid,
-                    admin: decodedToken.isAdmin,
-                    status: true
-                });
-                history.push('/home');
-            }
-        })
-        .catch((err) => {
-            console.error(err)
-        })
     }
 
     return (
@@ -75,7 +73,7 @@ const SignInForm = () => {
             />
             <div className="email error"></div>
             <br />
-            <input type="submit" value="Se connecter"/>
+            <input className="confirm-signin" type="submit" value="Se connecter"/>
         </form>
 
     )

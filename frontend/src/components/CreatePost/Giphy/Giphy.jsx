@@ -21,6 +21,7 @@ function Giphy(props) {
     e.preventDefault()
     setGifsResults([])
     setSearch("");
+    setDisplayCloseButton(false)
     props.gifUrl();
   }
 
@@ -72,7 +73,7 @@ function Giphy(props) {
 
   return (
     <div className="gif-container">
-      <h4>Le Gif</h4>
+      <h5>Le Gif</h5>
       <input
         className="input-field"
         placeholder="Votre mot-clé"
@@ -91,7 +92,7 @@ function Giphy(props) {
         ) : (
           <div className="gifs-list">
            {displayCloseButton && (
-           <button onClick={handleCloseList}> X </button>
+           <button className="close-gifList" onClick={handleCloseList}> FERMER LA LISTE </button>
            )} 
             {gifsResults.map((gif, key) => {
               return (

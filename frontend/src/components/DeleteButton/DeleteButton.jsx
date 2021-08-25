@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../auth/AuthContext';
+import './style.scss'
 
 const DeleteButton = (props) => {
     const {authState, setAuthState} = useContext(AuthContext)
@@ -25,7 +26,7 @@ const DeleteButton = (props) => {
 }
     return (
     <>
-        <button onClick={()=>{axiosDelete(props.url)}}>
+        <button className="delete-button" onClick={()=>{axiosDelete(props.url)}}>
            {props.function} 
         </button>
     </>

@@ -1,6 +1,5 @@
 const models = require('../models')
 const Post = models.Post;
-const User = models.User
 const Comment = models.Comment
 
 exports.createPost= (req, res) => {
@@ -67,22 +66,4 @@ exports.deletePost= (req, res) => {
     })
     .catch((error)=> res.status(400).json({ error }))
 
-}
-
-exports.adminDeletePost = (req, res) => {
-    console.log(req.headers)
-    User.findOne({ where: {uuid : req.headers.uuid}})
-    .then ((user) =>{
-    if(user.isAdmin === 1)
-    {
-        Comment.destroy({ where: { postId: req.body.id }})
-        Post.destroy({ where: { postId: req.body.id }})
-        .then((res) => {res.status(200).json({ message: "Le post a été supprimé !" })})
-        .catch(error => res.status(400).json({ error }))
-    } else {
-        console.log(user)
-        res.status(401).json({message : " Vous ne disposez pas de droit administrateur "})
-    }
-})
-.catch((error)=> res.status(400).json({message : "Vous n'êtes pas authentiifié-e " + error}))
 }

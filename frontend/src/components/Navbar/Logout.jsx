@@ -1,5 +1,6 @@
 import React from 'react';
 import logoutImg from '../../assets/log-out.png'
+import './style.scss'
 
 
 const Logout = () => {
@@ -11,8 +12,8 @@ const Logout = () => {
     }
 
     return (
-        <li onClick={logout}>
-            <img src={logoutImg} alt="logout" />
+        <li className="logout-link" onClick={logout}>
+            <img className="logout-image" src={logoutImg} alt="logout" />
         </li>
     );
 }

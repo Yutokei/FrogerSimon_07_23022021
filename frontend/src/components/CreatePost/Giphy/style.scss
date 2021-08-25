@@ -1,16 +1,32 @@
+
 .gif-container {
     text-align: center;
   }
-  
+  .close-gifList{
+    background-color: red;
+    height: fit-content;
+    padding: 3rem;
+    border-radius: 4rem;
+    cursor: pointer;
+  }
+  .close-gifList:hover{
+    background-color: #db5507;
+  }
 .gifs-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .gif-item{
-  margin: 2rem;
+  cursor: pointer;
+  background-color: #f0d8b9;
+  transition: .5s;
+}
+.gif-item:hover{
+  background-color: #db5507;
 }
 .gif-image {
-  width: 100%;
+  width: 50%;
 }
 .loading {
   width: 100%;
@@ -44,7 +60,8 @@
     font-size: 20px;
     vertical-align: middle;
     transition: .5s;
-    border-width: 2px;
+    border-radius: 2rem;
+    padding: 0.6rem;
     margin: 5px;
   }
   

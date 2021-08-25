@@ -12,9 +12,6 @@ const SignUpForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     const terms = document.getElementById("terms");
-    const pseudoError = document.querySelector(".pseudo.error");
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
       ".password-confirm.error"
     );
@@ -106,15 +103,15 @@ const SignUpForm = () => {
           <div className="password-confirm error"></div>
           <br />
           <input type="checkbox" id="terms" />
-          <label htmlFor="terms">
-            J'accepte les{" "}
-            <a href="/" target="_blank" rel="noopener noreferrer">
+          <label className="terms-label" htmlFor="terms">
+            J'accepte les{"  "} 
+            <span className="terms-link" >
               conditions générales
-            </a>
+            </span>
           </label>
           <div className="terms error"></div>
           <br />
-          <input type="submit" value="Valider inscription" />
+          <input className="confirm-signup" type="submit" value="Valider inscription" />
         </form>
       )}
     </>

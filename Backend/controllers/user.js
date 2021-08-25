@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const models = require("../models");
 const User = models.User;
 const jwt_decode = require("jwt-decode");
-const cryptoJs = require("crypto-js");
 require("dotenv").config;
 
 exports.signUp = (req, res, next) => {
@@ -129,23 +128,6 @@ exports.deleteProfile = (req, res) => {
     .catch((error) =>{ 
       console.log(error)
       res.status(500).json({ error })});
-};
-
-exports.adminDeleteProfile = (req, res) => {
-  if (req.query.isAdmin) {
-    models.user.destroy({ where: { id: req.query.uid } });
-    models.post.destroy({ where: { userId: req.query.uid } });
-    models.comment
-      .destroy({ where: { userId: req.query.uid } })
-      .then((res) => {
-        res.status(200).json({ message: "L'utilisateur a été supprimé !" });
-      })
-      .catch((error) => res.status(400).json({ error }));
-  } else {
-    res
-      .status(401)
-      .json({ message: " Vous ne disposez pas de droit administrateur " });
-  }
 };
 
 exports.validateToken = (req, res) => {

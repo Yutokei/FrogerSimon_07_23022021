@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContext";
 import logoImg from "../../assets/Groupomania_logos/icon.png";
 import Logout from "./Logout";
+import './style.scss'
 
 const Navbar = ({userName}) => {
 
@@ -14,14 +15,13 @@ const  {authState}  = useContext(AuthContext)
         <div className="logo">
           <NavLink exact to="/home">
             <div className="logo">
-              <img src={logoImg} alt="icon" />
+              <img className="logo-image" src={logoImg} alt="icon" />
               <h3>Groupomania</h3>
             </div>
           </NavLink>
         </div>
-        <ul>
+        <ul className="nav-link">
           <>
-            <li></li>
             <li className="welcome">
               {authState.status &&(
               <NavLink exact to="/profil">

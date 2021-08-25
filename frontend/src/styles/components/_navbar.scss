@@ -58,10 +58,6 @@ nav {
       .welcome {
         transform: translateY(2px);
 
-        @media screen and(max-width: 590px) {
-          display: none;
-        }
-        
         h5 {
           font-family: $font-3;
         }

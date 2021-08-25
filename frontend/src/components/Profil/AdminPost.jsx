@@ -8,7 +8,7 @@ const AdminPost = () => {
 
   return (
     <div>
-        <ul>
+        <ul className="post-list-container">
             {data.map((post, key)=>
                  (
                     <Post element={post} mappingKey={key}/>    

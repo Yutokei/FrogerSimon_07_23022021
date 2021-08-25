@@ -10,7 +10,7 @@ const AdminAllProfile = () => {
 
   return (
     <div>
-      <ul>
+      <ul className="post-list-container">
         {data.map((user, key) => (
             <AllUsers element={user} mappingKey={key}/>
         ))}

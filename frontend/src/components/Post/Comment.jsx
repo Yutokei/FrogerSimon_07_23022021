@@ -10,10 +10,10 @@ const Comment = (props) => {
     const comment = props.element
 
     return (
-        <div>
-            <div key={props.mappingKey} className="">
-                <h4>{comment.userName}</h4>
-                <h4>{comment.textContent}</h4>
+        <div className="comment-container border">
+            <div className="comment-text-content" key={props.mappingKey} >
+                <h4 className="comment-userName">{comment.userName}: </h4>
+                <h5>{comment.textContent}</h5>
             </div>
 
             {(authState.userName === comment.userName || authState.admin) && (

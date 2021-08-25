@@ -27,15 +27,15 @@ const clearForm = (e) =>{
 
     return (
         <form className="create-post-form-container" >
-            <div className="post-container">
+            <div className="create-post-container">
                 <div className="form-userName"><h3>{authState.userName}</h3></div>
                 <div className="form-textArea">
                     <label className="form-label" htmlFor="texte">Le message</label>
                     <input className="form-text" type="text" name="textContent" autoComplete="off" onChange={(e) => setTextContent(e.target.value)} value={textContent}/>
                 </div>
                 <Giphy gifUrl={url => setImageContent(url)}/>
-                {imageContent &&(<img src={imageContent} alt="" />)}
-                <div onClick={clearForm}>
+                {imageContent &&(<img className="image" src={imageContent} alt="" />)}
+                <div className="button-container" onClick={clearForm}>
                     <CreateButton url="post/" data={postObject} function="Envoyer le post"/>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 import { React, useState, useContext } from "react";
 import { AuthContext } from "../../auth/AuthContext";
 import CreateButton from "../CreateButton/CreateButton";
+import moment from 'moment';
+import 'moment/locale/fr'
 
 import Comment from "./Comment";
 import DeleteButton from "../DeleteButton/DeleteButton";
@@ -20,18 +22,18 @@ const Post = (props) => {
   }
 
   return (
-    <div>
-      <ul>
-        <li key={props.mappingKey} className="">
-          <div className="">
-            <h3>{post.userName}</h3>
-            <h4>Posté le {post.createdAt}</h4>
+<>
+        <li  key={props.mappingKey} className="post-container">
+          <div className="post-header">
+            <h4 className="post-date">Posté {moment(post.createdAt).fromNow()}</h4>
+            <h3 className="post-userName">{post.userName}</h3>
+            
           </div>
-          <div className="">
-            <h3>{post.textContent}</h3>
+          <div className="textContent-container">
+            <h3 className="textContent">{post.textContent}</h3>
           </div>
-          <div className="">
-            <img className="post-gif" src={post.imageContent} alt=""/>
+          <div className="image-container">
+            <img className="image" src={post.imageContent} alt=""/>
           </div>
           {(authState.userName === post.userName || authState.admin) && (
               <DeleteButton url={`post/${post.postId}`} function= "Supprimer le post"/>
@@ -47,7 +49,7 @@ const Post = (props) => {
                 type="text"
                 name="textComment"
                 placeholder="Votre commentaire"
-                minLength="1"
+                minLength="2"
                 required
                 autoComplete="off"
                 onChange={(e) => setTextComment(e.target.value)}
@@ -56,15 +58,12 @@ const Post = (props) => {
               <CreateButton url="comment" data={commentObject} function="Commenter"/>
             </div>
           </form>
-        </li>
-      </ul>
-      <div>
         {post.Comments.map((comment, key) =>(
           <Comment element={comment} mappingKey={key} />
           ))
         }
-      </div>
-    </div>
+      </li>
+</>
   );
 };
 

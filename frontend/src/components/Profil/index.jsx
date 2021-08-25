@@ -4,6 +4,7 @@ import UserPost from './UserPost';
 import AdminPost from './AdminPost';
 import AdminAllProfile from './AdminAllProfile';
 import { AuthContext } from "../../auth/AuthContext";
+import './style.scss'
 
 const Index = () => {
 
