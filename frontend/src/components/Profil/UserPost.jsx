@@ -1,19 +1,15 @@
-import {React, useEffect, useState, useContext} from 'react';
+import {React} from 'react';
 import useAxiosGet from '../../Hook/useAxiosGet';
 import Post from '../Post/Post'
 
 const UserPost = () => {
-    const { data, loading, error } = useAxiosGet("post/user")
-    const [uptdatePost, setUptdatePost] = useState(0)
-    console.log(data)
-
-
+    const { data } = useAxiosGet("post/user")
 
     return (
             <ul className="post-list-container">
-                {data.map((post, key)=>
+                {data.map((post)=>
                      (
-                        <Post element={post} mappingKey={key}/>    
+                        <Post element={post} key={post.postId}/>    
                 )
                 )}
             </ul>

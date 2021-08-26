@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SignInForm from './SignInForm';
+import SignInForm from "./SignInForm";
 import axios from "axios";
 
 const SignUpForm = () => {
@@ -37,12 +37,12 @@ const SignUpForm = () => {
         },
       })
         .then((res) => {
-            setFormSubmit(true);
+          setFormSubmit(true);
         })
-        .catch((error) =>{
-          alert("Échec" + error)
-           console.log(error)
-          });
+        .catch((error) => {
+          alert("Échec" + error);
+          console.log(error);
+        });
     }
   };
 
@@ -64,6 +64,8 @@ const SignUpForm = () => {
             type="text"
             name="userName"
             id="pseudo"
+            minLength="2"
+            required
             onChange={(e) => setUserName(e.target.value)}
             value={userName}
           />
@@ -75,6 +77,7 @@ const SignUpForm = () => {
             type="email"
             name="email"
             id="email"
+            required
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
@@ -84,6 +87,7 @@ const SignUpForm = () => {
           <br />
           <input
             type="password"
+            minLength="6"
             name="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -104,14 +108,16 @@ const SignUpForm = () => {
           <br />
           <input type="checkbox" id="terms" />
           <label className="terms-label" htmlFor="terms">
-            J'accepte les{"  "} 
-            <span className="terms-link" >
-              conditions générales
-            </span>
+            J'accepte les
+            <span className="terms-link">conditions générales</span>
           </label>
           <div className="terms error"></div>
           <br />
-          <input className="confirm-signup" type="submit" value="Valider inscription" />
+          <input
+            className="confirm-signup"
+            type="submit"
+            value="Valider inscription"
+          />
         </form>
       )}
     </>

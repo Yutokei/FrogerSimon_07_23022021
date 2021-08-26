@@ -14,3 +14,12 @@
     margin-right: auto;
     margin-left: auto;
 }
+.user-list-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    
+}
+.user-container{
+    margin: 0.1rem;
+}

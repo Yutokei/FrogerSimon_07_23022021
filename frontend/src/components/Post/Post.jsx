@@ -23,7 +23,7 @@ const Post = (props) => {
 
   return (
 <>
-        <li  key={props.mappingKey} className="post-container">
+        <li   className="post-container">
           <div className="post-header">
             <h4 className="post-date">Posté {moment(post.createdAt).fromNow()}</h4>
             <h3 className="post-userName">{post.userName}</h3>
@@ -58,8 +58,8 @@ const Post = (props) => {
               <CreateButton url="comment" data={commentObject} function="Commenter"/>
             </div>
           </form>
-        {post.Comments.map((comment, key) =>(
-          <Comment element={comment} mappingKey={key} />
+        {post.Comments.map((comment) =>(
+          <Comment element={comment} key={comment.commentId} />
           ))
         }
       </li>

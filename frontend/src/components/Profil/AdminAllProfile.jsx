@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import useAxiosGet from "../../Hook/useAxiosGet";
-import { AuthContext } from "../../auth/AuthContext";
 import AllUsers from "./AllUsers";
 
 
 const AdminAllProfile = () => {
-  const { data, loading, error } = useAxiosGet("user")
+  const { data } = useAxiosGet("user")
 
   return (
     <div>
-      <ul className="post-list-container">
-        {data.map((user, key) => (
-            <AllUsers element={user} mappingKey={key}/>
+      <ul className="user-list-container">
+        {data.map((user) => (
+            <AllUsers element={user} key={user.uuid}/>
         ))}
       </ul>
     </div>

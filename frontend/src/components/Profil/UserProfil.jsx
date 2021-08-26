@@ -8,7 +8,7 @@ import 'moment/locale/fr'
 const UserProfile = () => {
   const { authState } = useContext(AuthContext);
 
-  const { data, loading, error } = useAxiosGet(`user/${authState.uuid}`);
+  const { data } = useAxiosGet(`user/${authState.uuid}`);
   let role = "";
 
   const isAdmin = () => {

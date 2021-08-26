@@ -46,7 +46,7 @@ exports.signIn = (req, res) => {
             return res.status(401).json({ error: "Mot de passe invalide" });
           }
 
-          const maxAge = 3 * 24 * 60 * 60 * 1000;
+          const maxAge = "3h";
 
           const createToken = (uuid, userName, isAdmin) => {
             return jwt.sign(
@@ -78,35 +78,36 @@ exports.logout = (req, res) => {
 
 exports.userProfile = (req, res) => {
   let userProfile = [];
-  
+
   const uuid = req.params.id;
   User.findOne({ where: { uuid } })
     .then((user) => {
       userProfile = {
-       userName: user.dataValues.userName,
-       userEmail: user.dataValues.email,
-       userRole: user.dataValues.isAdmin,
-       createdAt: user.dataValues.createdAt
-      }
+        userName: user.dataValues.userName,
+        userEmail: user.dataValues.email,
+        userRole: user.dataValues.isAdmin,
+        createdAt: user.dataValues.createdAt,
+      };
       res.status(200).json(userProfile);
     })
     .catch((error) => {
-      console.log(error)
-      res.status(500).json(error)});
+      console.log(error);
+      res.status(500).json(error);
+    });
 };
 
 exports.getAllProfiles = (req, res) => {
   let allUsers = [];
-  User.findAll({ 
-      where: { isAdmin: false }, 
-      order: [["updatedAt", "DESC"]] 
-    })
+  User.findAll({
+    where: { isAdmin: false },
+    order: [["updatedAt", "DESC"]],
+  })
     .then((users) => {
       allUsers = users;
       res.status(200).json(allUsers);
     })
     .catch((error) => {
-        console.log(error)
+      console.log(error);
       res.status(400).json({ message: error });
     });
 };
@@ -114,20 +115,22 @@ exports.getAllProfiles = (req, res) => {
 exports.deleteProfile = (req, res) => {
   models.User.findOne({ where: { uuid: req.params.id } })
     .then((user) => {
-        if(user.uuid === req.params.id || req.headers.admin === "true"){
-            models.Comment.destroy({ where: { userUuid: req.params.id } });
-            models.Post.destroy({ where: { userUuid: req.params.id } });
-            models.User.destroy({ where: { uuid: req.params.id } })
-              .then(() => res.status(204).json({ message: "Utilisateur supprimé" }))
-              .catch((error) => res.status(400).json(error));
-        }
-        else{
-            res.status(401).json({ message: "Vous ne disposez pas des droits utilisateurs"})
-        }
+      if (user.uuid === req.params.id || req.headers.admin === "true") {
+        models.Comment.destroy({ where: { userUuid: req.params.id } });
+        models.Post.destroy({ where: { userUuid: req.params.id } });
+        models.User.destroy({ where: { uuid: req.params.id } })
+          .then(() => res.status(204).json({ message: "Utilisateur supprimé" }))
+          .catch((error) => res.status(400).json(error));
+      } else {
+        res
+          .status(401)
+          .json({ message: "Vous ne disposez pas des droits utilisateurs" });
+      }
     })
-    .catch((error) =>{ 
-      console.log(error)
-      res.status(500).json({ error })});
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
 };
 
 exports.validateToken = (req, res) => {

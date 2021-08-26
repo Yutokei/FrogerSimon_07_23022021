@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from "axios";
 import DeleteButton from '../DeleteButton/DeleteButton'
+import moment from 'moment';
+import 'moment/locale/fr'
 
 
 const AllUsers = (props) => {
@@ -10,16 +11,18 @@ const AllUsers = (props) => {
 
     return (
         <>
-        <li>
-          <h3 id={props.mappingKey}>Nom d'utilisateur: {user.userName}</h3>
-        </li>
-        <li>
-          <h3>Email: {user.userEmail}</h3>
-        </li>
-        <li>
-          <h3>Role: {user.userRole}</h3>
-        </li>
+        <li className="user-container">
+        <div>
+          <h3>Nom d'utilisateur: {user.userName}</h3>
+        </div>
+        <div>
+          <h3>Email: {user.email}</h3>
+        </div>
+        <div>
+          <h3>Crée le: {moment(user.createdAt).format('l')}</h3>
+        </div>
         <DeleteButton url={`user/${user.uuid}`} function= "Supprimer l'utilisateur-ice"/>
+        </li>
       </>
     );
 }

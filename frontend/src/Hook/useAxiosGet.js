@@ -33,7 +33,7 @@ useEffect(()=>{
         })
     }
 
-},[authState])
+},[authState, url])
     
 
     return { data, loading, error};

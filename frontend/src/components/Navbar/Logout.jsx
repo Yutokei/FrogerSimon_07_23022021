@@ -6,6 +6,7 @@ import './style.scss'
 const Logout = () => {
 
     const logout = () => {
+
         localStorage.removeItem("token");
 
         window.location = "/"
