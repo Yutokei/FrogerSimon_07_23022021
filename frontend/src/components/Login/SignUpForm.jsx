@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { userValidation } from "../../Validations/UserValidations";
 import SignInForm from "./SignInForm";
 import axios from "axios";
 
@@ -19,8 +20,10 @@ const SignUpForm = () => {
 
     passwordConfirmError.innerHTML = "";
     termsError.innerHTML = "";
-
-    if (password !== controlPassword || !terms.checked) {
+    if(!userValidation){
+      passwordConfirmError.innerHTML = "Vérifiez vos Champs"
+    }  
+    else if (password !== controlPassword || !terms.checked) {
       if (password !== controlPassword)
         passwordConfirmError.innerHTML = "Les mots de passe sont différents";
 
@@ -65,6 +68,8 @@ const SignUpForm = () => {
             name="userName"
             id="pseudo"
             minLength="2"
+            autoComplete="off"
+            placeholder="2 charactères minimum"
             required
             onChange={(e) => setUserName(e.target.value)}
             value={userName}
@@ -77,6 +82,8 @@ const SignUpForm = () => {
             type="email"
             name="email"
             id="email"
+            autoComplete="off"
+            placeholder="Lorie@gropomania.com"
             required
             onChange={(e) => setEmail(e.target.value)}
             value={email}
@@ -90,6 +97,7 @@ const SignUpForm = () => {
             minLength="6"
             name="password"
             id="password"
+            autoComplete="off"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
@@ -101,6 +109,7 @@ const SignUpForm = () => {
             type="password"
             name="password"
             id="password-conf"
+            autoComplete="off"
             onChange={(e) => setControlPassword(e.target.value)}
             value={controlPassword}
           />
