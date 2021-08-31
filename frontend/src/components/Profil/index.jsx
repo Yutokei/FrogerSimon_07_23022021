@@ -1,27 +1,27 @@
-import { React, useContext }from 'react';
-import UserProfile from './UserProfil';
-import UserPost from './UserPost';
-import AdminPost from './AdminPost';
-import AdminAllProfile from './AdminAllProfile';
+import { React, useContext } from "react";
+import UserProfile from "./UserProfil";
+import UserPost from "./UserPost";
+import AdminPost from "./AdminPost";
+import AdminAllProfile from "./AdminAllProfile";
 import { AuthContext } from "../../auth/AuthContext";
-import './style.scss'
+import "./style.scss";
 
 const Index = () => {
+  const { authState } = useContext(AuthContext);
 
-const {authState} = useContext(AuthContext)
-
-    return (
+  return (
+    <>
+      <UserProfile />
+      {authState.admin ? (
         <>
-        <UserProfile />
-        { authState.admin ? (
-            <>
-        <AdminAllProfile />
-        <AdminPost /> 
+          <AdminAllProfile />
+          <AdminPost />
         </>
-        ):(
-        <UserPost />)}
-        </>
-    );
-}
+      ) : (
+        <UserPost />
+      )}
+    </>
+  );
+};
 
 export default Index;

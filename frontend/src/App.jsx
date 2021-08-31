@@ -11,40 +11,39 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const App = () => {
-  
-    const [authState, setAuthState] = useState({
-      userName: "",
-      uuid: 0,
-      admin: false,
-      status: false,
-    });
+  const [authState, setAuthState] = useState({
+    userName: "",
+    uuid: 0,
+    admin: false,
+    status: false,
+  });
 
-    useEffect(() => {
-
-      axios.get(`${process.env.REACT_APP_API_URL}api/user/auth`,
-      { headers: {
-        token: localStorage.getItem("token"),
-      }
-    })
-    .then((res) => {
-        if(res.data.error) {
-          setAuthState({...authState, status: false});
-        }else{
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}api/user/auth`, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        if (res.data.error) {
+          setAuthState({ ...authState, status: false });
+        } else {
           setAuthState({
-           userName: res.data.userName,
+            userName: res.data.userName,
             uuid: res.data.uuid,
             admin: res.data.admin,
             status: true,
-            update: 0
+            update: 0,
           });
         }
-      })
-    }, [])
+      });
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ authState, setAuthState}}>
+    <AuthContext.Provider value={{ authState, setAuthState }}>
       <Router>
-        <Navbar userName={authState.userName}/>
+        <Navbar userName={authState.userName} />
         <Switch>
           <ProtectedRoute path="/home" exact component={Home} />
           <ProtectedRoute path="/profil" exact component={Profil} />

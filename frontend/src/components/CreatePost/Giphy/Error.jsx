@@ -1,11 +1,9 @@
 const Error = (props) => {
-    if(!props.isError) {
-        return null
-    }
+  if (!props.isError) {
+    return null;
+  }
 
-    return (
-        <p className='error'>{props.text}</p>
-    )
-}
+  return <p className="error">{props.text}</p>;
+};
 
-export default Error
+export default Error;

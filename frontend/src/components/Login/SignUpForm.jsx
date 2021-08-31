@@ -20,10 +20,9 @@ const SignUpForm = () => {
 
     passwordConfirmError.innerHTML = "";
     termsError.innerHTML = "";
-    if(!userValidation){
-      passwordConfirmError.innerHTML = "Vérifiez vos Champs"
-    }  
-    else if (password !== controlPassword || !terms.checked) {
+    if (!userValidation) {
+      passwordConfirmError.innerHTML = "Vérifiez vos Champs";
+    } else if (password !== controlPassword || !terms.checked) {
       if (password !== controlPassword)
         passwordConfirmError.innerHTML = "Les mots de passe sont différents";
 
@@ -43,7 +42,7 @@ const SignUpForm = () => {
           setFormSubmit(true);
         })
         .catch((error) => {
-          alert("Échec" + error);
+          alert("Échec " + error.response.data.error.errors[0].message);
         });
     }
   };

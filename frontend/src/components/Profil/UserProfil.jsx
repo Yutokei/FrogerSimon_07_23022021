@@ -1,9 +1,9 @@
-import { React, useEffect, useState, useContext } from "react";
+import { React, useContext } from "react";
 import { AuthContext } from "../../auth/AuthContext";
 import axios from "axios";
 import useAxiosGet from "../../Hook/useAxiosGet";
-import moment from 'moment';
-import 'moment/locale/fr'
+import moment from "moment";
+import "moment/locale/fr";
 
 const UserProfile = () => {
   const { authState } = useContext(AuthContext);
@@ -46,9 +46,11 @@ const UserProfile = () => {
           <h3>Role: {role}</h3>
         </li>
         <li>
-          <h5>Crée le: {moment(data.createdAt).format('l')}</h5>
+          <h5>Crée le: {moment(data.createdAt).format("l")}</h5>
         </li>
-        <button className="delete-button" onClick={removeUser}>Supprimer le profil</button>
+        <button className="delete-button" onClick={removeUser}>
+          Supprimer le profil
+        </button>
       </ul>
     </>
   );
