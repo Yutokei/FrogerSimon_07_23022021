@@ -39,9 +39,8 @@ const SignInForm = () => {
           });
           history.push("/home");
         })
-        .catch((err) => {
-          alert(err);
-          console.error(err);
+        .catch((error) => {
+          alert(error.response.data.error);
         });
     }
   };
