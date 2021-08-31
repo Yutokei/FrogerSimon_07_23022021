@@ -11,7 +11,6 @@ exports.signUp = (req, res, next) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   } else {
-    console.log("Utilisateur validé");
 
     bcrypt
       .hash(req.body.password, 10)
@@ -91,7 +90,6 @@ exports.userProfile = (req, res) => {
       res.status(200).json(userProfile);
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).json(error);
     });
 };
@@ -107,7 +105,6 @@ exports.getAllProfiles = (req, res) => {
       res.status(200).json(allUsers);
     })
     .catch((error) => {
-      console.log(error);
       res.status(400).json({ message: error });
     });
 };
@@ -128,7 +125,6 @@ exports.deleteProfile = (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
       res.status(500).json({ error });
     });
 };

@@ -21,7 +21,6 @@ const DeleteButton = (props) => {
       })
       .catch((error)=>{
         alert("Échec de la suppression " + error)
-        console.log(error)
       })
 }
     return (

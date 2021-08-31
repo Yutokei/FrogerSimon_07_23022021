@@ -14,7 +14,6 @@ exports.createComment = (req, res) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-  console.log(req.params);
   Comment.findOne({ where: { commentId: req.params.id } })
     .then((comment) => {
       if (
@@ -26,7 +25,6 @@ exports.deleteComment = (req, res, next) => {
             res.status(200).json({ message: "Commentaire supprimé !" })
           )
           .catch((error) => {
-            console.log(error);
             res.status(400).json({ error });
           });
       }

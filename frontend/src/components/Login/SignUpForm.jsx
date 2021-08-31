@@ -44,7 +44,6 @@ const SignUpForm = () => {
         })
         .catch((error) => {
           alert("Échec" + error);
-          console.log(error);
         });
     }
   };
