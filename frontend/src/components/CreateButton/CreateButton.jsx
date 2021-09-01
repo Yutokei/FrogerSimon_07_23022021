@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../auth/AuthContext";
 import Error from "../Error/Error";
@@ -13,6 +13,13 @@ const CreateButton = (props) => {
 
   const [valid, setValid] = useState(false);
   const [validMessage, setValidMessage] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(false);
+      setValid(false);
+    }, 3000);
+  }, [valid, error]);
 
   const handlePost = (e) => {
     e.preventDefault();

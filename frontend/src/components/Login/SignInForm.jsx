@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../auth/AuthContext";
@@ -15,6 +15,12 @@ const SignInForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(false);
+    }, 3000);
+  }, [error]);
 
   const handleLogin = (e) => {
     e.preventDefault();

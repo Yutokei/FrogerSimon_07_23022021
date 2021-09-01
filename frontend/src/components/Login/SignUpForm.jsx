@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { userValidation } from "../../Validations/UserValidations";
 import SignInForm from "./SignInForm";
 import Error from "../Error/Error";
@@ -13,6 +13,12 @@ const SignUpForm = () => {
 
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(false);
+    }, 3000);
+  }, [error]);
 
   const handleRegister = async (e) => {
     e.preventDefault();

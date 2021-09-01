@@ -1,6 +1,6 @@
 import Error from "../../Error/Error";
-import { React, useState } from "react";
-import closeIcon from "../../../assets/close-circle-outline_1.svg"
+import { React, useState, useEffect } from "react";
+import closeIcon from "../../../assets/close-circle-outline_1.svg";
 import "./style.scss";
 
 function Giphy(props) {
@@ -11,8 +11,14 @@ function Giphy(props) {
   const [gifsResults, setGifsResults] = useState([]);
   const [displayCloseButton, setDisplayCloseButton] = useState(false);
 
-  const [err, setErr] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setError(false);
+    }, 3000);
+  }, [error]);
 
   const handleCloseList = (e) => {
     e.preventDefault();
@@ -29,8 +35,8 @@ function Giphy(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search.length === 0) {
-      setErr(true);
-      setErrorMessage("Entrez au moins quelques lettres !")
+      setError(true);
+      setErrorMessage("Entrez au moins quelques lettres !");
       return;
     }
 
@@ -50,15 +56,15 @@ function Giphy(props) {
           );
         })
         .catch((err) => {
-          setErr(true)
-          setErrorMessage("Pas de connection à giphy "+ err)
+          setError(true);
+          setErrorMessage("Pas de connection à giphy " + err);
         });
     };
 
     apiCall();
     setSearch("");
     setDisplayCloseButton(false);
-    setErr(false);
+    setError(false);
   };
 
   const handleGif = (url) => {
@@ -80,7 +86,7 @@ function Giphy(props) {
       <button className="submit-btn" onClick={handleSubmit}>
         Giphy
       </button>
-      <Error isError={err} text={errorMessage} />
+      <Error isError={error} text={errorMessage} />
       <div className="gif-result">
         {loading ? (
           <div className="loading">
@@ -90,7 +96,11 @@ function Giphy(props) {
           <div className="gifs-list">
             {displayCloseButton && (
               <button className="close-gifList" onClick={handleCloseList}>
-                <img className="close-gifList-img" src={closeIcon} alt="Fermer la liste de gifs"/>
+                <img
+                  className="close-gifList-img"
+                  src={closeIcon}
+                  alt="Fermer la liste de gifs"
+                />
               </button>
             )}
             {gifsResults.map((gif) => {
