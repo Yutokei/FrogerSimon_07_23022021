@@ -1,3 +1,6 @@
+import React from "react";
+import './style.scss'
+
 const Error = (props) => {
   if (!props.isError) {
     return null;

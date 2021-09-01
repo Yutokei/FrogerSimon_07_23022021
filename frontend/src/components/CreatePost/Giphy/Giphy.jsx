@@ -1,5 +1,6 @@
-import Error from "./Error";
+import Error from "../../Error/Error";
 import { React, useState } from "react";
+import closeIcon from "../../../assets/close-circle-outline_1.svg"
 import "./style.scss";
 
 function Giphy(props) {
@@ -11,6 +12,7 @@ function Giphy(props) {
   const [displayCloseButton, setDisplayCloseButton] = useState(false);
 
   const [err, setErr] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleCloseList = (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ function Giphy(props) {
     e.preventDefault();
     if (search.length === 0) {
       setErr(true);
+      setErrorMessage("Entrez au moins quelques lettres !")
       return;
     }
 
@@ -47,7 +50,8 @@ function Giphy(props) {
           );
         })
         .catch((err) => {
-          alert("On ne trouve pas de gifs " + err);
+          setErr(true)
+          setErrorMessage("Pas de connection à giphy "+ err)
         });
     };
 
@@ -76,7 +80,7 @@ function Giphy(props) {
       <button className="submit-btn" onClick={handleSubmit}>
         Giphy
       </button>
-      <Error isError={err} text="Entrez au moins quelques lettres !" />
+      <Error isError={err} text={errorMessage} />
       <div className="gif-result">
         {loading ? (
           <div className="loading">
@@ -86,19 +90,19 @@ function Giphy(props) {
           <div className="gifs-list">
             {displayCloseButton && (
               <button className="close-gifList" onClick={handleCloseList}>
-                {" "}
-                FERMER LA LISTE{" "}
+                <img className="close-gifList-img" src={closeIcon} alt="Fermer la liste de gifs"/>
               </button>
             )}
-            {gifsResults.map((gif, key) => {
+            {gifsResults.map((gif) => {
               return (
                 <button
                   className="gif-item"
+                  key={gif}
                   onClick={() => {
                     handleGif(gif);
                   }}
                 >
-                  <img className="gif-image" id={key} src={gif} alt="" />
+                  <img className="gif-image" key={gif} src={gif} alt="" />
                 </button>
               );
             })}

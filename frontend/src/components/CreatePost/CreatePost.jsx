@@ -7,14 +7,9 @@ import CreateButton from "../CreateButton/CreateButton";
 const CreatePost = () => {
   const { authState } = useContext(AuthContext);
 
-  const [textContent, setTextContent] = useState();
+  const [textContent, setTextContent] = useState("");
   const [imageContent, setImageContent] = useState(false);
 
-  const clearForm = (e) => {
-    e.preventDefault();
-    setTextContent("");
-    setImageContent(false);
-  };
   let postObject = {
     userName: authState.userName,
     userUuid: authState.uuid,
@@ -43,11 +38,15 @@ const CreatePost = () => {
         </div>
         <Giphy gifUrl={(url) => setImageContent(url)} />
         {imageContent && <img className="image" src={imageContent} alt="" />}
-        <div className="button-container" onClick={clearForm}>
+        <div className="button-container">
           <CreateButton
             url="post/"
             data={postObject}
             function="Envoyer le post"
+            clear={() => {
+              setTextContent("");
+              setImageContent(false)
+            }}
           />
         </div>
       </div>

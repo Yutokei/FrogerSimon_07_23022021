@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { userValidation } from "../../Validations/UserValidations";
 import SignInForm from "./SignInForm";
+import Error from "../Error/Error";
 import axios from "axios";
 
 const SignUpForm = () => {
@@ -9,6 +10,9 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [controlPassword, setControlPassword] = useState("");
+
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -42,7 +46,8 @@ const SignUpForm = () => {
           setFormSubmit(true);
         })
         .catch((error) => {
-          alert("Échec " + error.response.data.error.errors[0].message);
+          setError(true)
+          setErrorMessage(error.response.data.error.errors[0].message)
         });
     }
   };
@@ -58,6 +63,7 @@ const SignUpForm = () => {
           </h4>
         </>
       ) : (
+        <>
         <form action="" onSubmit={handleRegister} id="sign-up-form">
           <label htmlFor="userName">Nom d'utilisateur</label>
           <br />
@@ -66,7 +72,7 @@ const SignUpForm = () => {
             name="userName"
             id="pseudo"
             minLength="2"
-            autoComplete="off"
+            autoComplete="new-user"
             placeholder="2 charactères minimum"
             required
             onChange={(e) => setUserName(e.target.value)}
@@ -80,7 +86,7 @@ const SignUpForm = () => {
             type="email"
             name="email"
             id="email"
-            autoComplete="off"
+            autoComplete="new-email"
             placeholder="Lorie@gropomania.com"
             required
             onChange={(e) => setEmail(e.target.value)}
@@ -95,7 +101,7 @@ const SignUpForm = () => {
             minLength="6"
             name="password"
             id="password"
-            autoComplete="off"
+            autoComplete="new-password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
@@ -126,6 +132,8 @@ const SignUpForm = () => {
             value="Valider inscription"
           />
         </form>
+        <Error isError={error} text={errorMessage} />
+        </>
       )}
     </>
   );

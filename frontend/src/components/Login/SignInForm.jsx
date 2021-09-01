@@ -2,10 +2,14 @@ import React, { useState, useContext } from "react";
 import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../auth/AuthContext";
+import Error from "../Error/Error";
 import axios from "axios";
 
 const SignInForm = () => {
   const { setAuthState } = useContext(AuthContext);
+
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const history = useHistory();
 
@@ -15,7 +19,8 @@ const SignInForm = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (!email || !password) {
-      alert("Vous n'avez pas remplis tout les champs");
+      setError(true);
+      setErrorMessage("Vous n'avez pas remplis tout les champs");
     } else {
       axios({
         method: "post",
@@ -40,37 +45,41 @@ const SignInForm = () => {
           history.push("/home");
         })
         .catch((error) => {
-          alert(error.response.data.error);
+          setError(true);
+          setErrorMessage(error.response.data.error);
         });
     }
   };
 
   return (
-    <form action="" onSubmit={handleLogin} id="sign-up-form">
-      <label htmlFor="email">Email</label>
-      <br />
-      <input
-        type="text"
-        name="email"
-        id="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <div className="email error"></div>
-      <br />
-      <label htmlFor="password">Mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <div className="email error"></div>
-      <br />
-      <input className="confirm-signin" type="submit" value="Se connecter" />
-    </form>
+    <>
+      <form action="" onSubmit={handleLogin} id="sign-up-form">
+        <label htmlFor="email">Email</label>
+        <br />
+        <input
+          type="text"
+          name="email"
+          id="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <div className="email error"></div>
+        <br />
+        <label htmlFor="password">Mot de passe</label>
+        <br />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <div className="email error"></div>
+        <br />
+        <input className="confirm-signin" type="submit" value="Se connecter" />
+      </form>
+      <Error isError={error} text={errorMessage} />
+    </>
   );
 };
 

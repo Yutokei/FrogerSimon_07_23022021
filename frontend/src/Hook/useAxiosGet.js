@@ -24,7 +24,6 @@ function useAxiosGet(url) {
           setData(response.data);
         })
         .catch((error) => {
-          alert("Échec de la connection au serveur " + error);
           setError(error);
         })
         .finally(() => {

@@ -61,6 +61,7 @@ const Post = (props) => {
               url="comment"
               data={commentObject}
               function="Commenter"
+              clear={()=> setTextComment("")}
             />
           </div>
         </form>

@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../auth/AuthContext";
+import Error from "../Error/Error";
 import "./style.scss";
 
 const DeleteButton = (props) => {
   const { authState, setAuthState } = useContext(AuthContext);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const axiosDelete = (url) => {
+    setError(true);
+    setErrorMessage("Suppression");
     axios({
       method: "DELETE",
       url: `${process.env.REACT_APP_API_URL}api/${url}`,
@@ -20,7 +25,8 @@ const DeleteButton = (props) => {
         setAuthState({ ...authState, update: authState.update + 1 });
       })
       .catch((error) => {
-        alert("Échec de la suppression " + error);
+        setError(true);
+        setErrorMessage(error);
       });
   };
   return (
@@ -33,6 +39,7 @@ const DeleteButton = (props) => {
       >
         {props.function}
       </button>
+      <Error isError={error} text={errorMessage} />
     </>
   );
 };
