@@ -8,7 +8,8 @@
   min-height: 18rem;
   padding: 0.3rem;
   margin: 2.5rem;
-  border: #bf3219 solid 0.2rem;
+  -webkit-box-shadow: 0px 0px 16px 0px rgba(49, 64, 199, 0.77);
+  box-shadow: 0px 0px 16px 0px rgba(49, 64, 199, 0.77);
   border-radius: 1rem 0.5rem;
   background-color: #f0d8b9;
   display: flex;
@@ -57,13 +58,13 @@
   min-width: 20rem;
   min-height: 3rem;
 }
-.comment-text-content{
+.comment-text-content {
   margin-left: 1.5rem;
 }
 .comment-userName {
   font-style: oblique;
   text-decoration: underline;
 }
-.delete-button{
+.delete-button {
   margin-right: 1rem;
 }

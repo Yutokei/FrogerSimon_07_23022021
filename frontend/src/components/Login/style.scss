@@ -2,8 +2,7 @@
   margin: 10rem auto 0rem auto;
   text-align: center;
   background-color: #f0d8b9;
-  border: #ab0a26 solid 0.1rem;
-  border-radius: 2rem;
+  border-radius: 0.8rem;
   width: fit-content;
   padding: 2rem;
 }
@@ -14,19 +13,20 @@
 }
 #register,
 #login {
-  border: #ab0a26 solid 0.1rem;
   padding: 0.5rem;
-  border-radius: 3rem;
+  border-radius: 0.8rem;
   color: white;
-  background-color: #db5507;
+  background-color: #122544;
   cursor: pointer;
 }
 .active-btn {
-  background-color: #ab0a26 !important;
+  background-color: #3140c7 !important;
+  -webkit-box-shadow: 1px 1px 4px 1px #000000;
+  box-shadow: 1px 1px 4px 1px #000000;
 }
 input {
   padding: 0.5rem;
-  border-radius: 1.5rem;
+  border-radius: 0.5rem;
 }
 .terms-label {
   display: flex;
@@ -44,6 +44,7 @@ input {
 .confirm-signin {
   background-color: #122544;
   color: white;
+  cursor: pointer;
 }
 .confirm-signup:hover,
 .confirm-signin:hover {
