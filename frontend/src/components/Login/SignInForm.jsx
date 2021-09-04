@@ -45,7 +45,7 @@ const SignInForm = () => {
           setAuthState({
             userName: decodedToken.userName,
             uuid: decodedToken.uuid,
-            admin: decodedToken.isAdmin,
+            admin: decodedToken.admin,
             status: true,
           });
           history.push("/home");

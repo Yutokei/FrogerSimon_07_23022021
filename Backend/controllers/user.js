@@ -11,7 +11,6 @@ exports.signUp = (req, res, next) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   } else {
-
     bcrypt
       .hash(req.body.password, 10)
       .then((hash) => {
@@ -131,11 +130,17 @@ exports.deleteProfile = (req, res) => {
 
 exports.validateToken = (req, res) => {
   const token = jwt_decode(req.headers.token);
-  models.User.findOne({ where: { uuid: token.uuid } }).then((user) => {
+  models.User.findOne({ where: { uuid: token.uuid } })
+  .then((user) => {
     res.status(200).json({
       uuid: user.uuid,
       admin: user.isAdmin,
       userName: user.userName,
     });
-  });
+  })
+  .catch((error) =>{
+    res.status(400).json({
+      error
+    })
+  })
 };

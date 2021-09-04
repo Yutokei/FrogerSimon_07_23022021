@@ -27,7 +27,7 @@ const App = () => {
       })
       .then((res) => {
         if (res.data.error) {
-          setAuthState({ ...authState, status: false });
+         setAuthState({ ...authState, status: false });
         } else {
           setAuthState({
             userName: res.data.userName,
@@ -37,7 +37,7 @@ const App = () => {
             update: 0,
           });
         }
-      });
+      })
   }, []);
 
   return (
