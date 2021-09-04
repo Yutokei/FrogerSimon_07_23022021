@@ -18,7 +18,7 @@ const CreateButton = (props) => {
     setTimeout(() => {
       setError(false);
       setValid(false);
-    }, 3000);
+    }, 2500);
   }, [valid, error]);
 
   const handlePost = (e) => {

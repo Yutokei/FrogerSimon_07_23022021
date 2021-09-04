@@ -17,7 +17,7 @@ const SignUpForm = () => {
   useEffect(() => {
     setTimeout(() => {
       setError(false);
-    }, 3000);
+    }, 2500);
   }, [error]);
 
   const handleRegister = async (e) => {

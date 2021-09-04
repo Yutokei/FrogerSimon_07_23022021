@@ -17,7 +17,7 @@ function Giphy(props) {
   useEffect(() => {
     setTimeout(() => {
       setError(false);
-    }, 3000);
+    }, 2500);
   }, [error]);
 
   const handleCloseList = (e) => {

@@ -19,7 +19,7 @@ const SignInForm = () => {
   useEffect(() => {
     setTimeout(() => {
       setError(false);
-    }, 3000);
+    }, 2500);
   }, [error]);
 
   const handleLogin = (e) => {
